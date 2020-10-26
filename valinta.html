@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+  <style>
+    #footer {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      font-weight: normal;
+      margin: 10px;
+      color: #444;
+      background-color: #eee;
+    }
+
+    .customRadioDiv {
+      display: grid;
+      clear: both;
+      margin: 0 0 20px;
+
+    }
+
+    .customRadioLabel {
+      width: 400px;
+      border-radius: 3px;
+      border: 1px solid #D1D3D4
+    }
+
+    .radio {
+      height: 0;
+    }
+
+    /* hide input */
+    input.radio:empty {
+      margin-left: -999px;
+    }
+
+    /* style label */
+    input.radio:empty~label {
+      position: relative;
+      float: left;
+      line-height: 2.5em;
+      text-indent: 3.25em;
+      margin-top: 2em;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input.radio:empty~label:before {
+      position: absolute;
+      display: block;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      content: '';
+      width: 2.5em;
+      background: #D1D3D4;
+      border-radius: 3px 0 0 3px;
+    }
+
+    /* toggle hover */
+    input.radio:hover:not(:checked)~label:before {
+      content: '\2714';
+      text-indent: .9em;
+      color: #C2C2C2;
+    }
+
+    input.radio:hover:not(:checked)~label {
+      color: #888;
+    }
+
+    /* toggle on */
+    input.radio:checked~label:before {
+      content: '\2714';
+      text-indent: .9em;
+      color: #9CE2AE;
+      background-color: #4DCB6D;
+    }
+
+    input.radio:checked~label {
+      color: #777;
+    }
+
+    /* radio focus */
+    input.radio:focus~label:before {
+      box-shadow: 0 0 0 3px #999;
+    }
+
+    .navbar {
+      size: 40px;
+    }
+
+    .navbar-brand {
+      font-family: 'Lato', sans-serif;
+      color: grey;
+      font-size: 50px !important;
+      margin: 0px;
+    }
+
+    .container {
+      padding-top: 120px !important;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id="questions">
+    <!-- We will put our React component inside this div. -->
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+  <script type="text/babel">
+
+    'use strict';
+
+
+    const App = (props) => {
+
+      // Questionnaire data
+
+      const optionalStuff = ["Pyörälaukku", "Pyöräilyreppu", "Lastenistuin", "Lastenkuljetuskärry"]
+
+      const question1 =
+        [
+          {
+            value: "yes",
+            text: "Kyllä"
+
+          },
+          {
+            value: "no",
+            text: "En / Tarvitsen uuden"
+
+          }
+        ]
+
+      const question2 =
+        [
+          {
+            value: "electric",
+            text: "Sähköpyörä"
+
+          },
+          {
+            value: "cargo",
+            text: "Kuormapyörä"
+
+          },
+          {
+            value: "regular",
+            text: "Tavallinen polkupyörä"
+
+          }
+        ]
+
+      const question3 =
+        [
+          {
+            value: "sporty",
+            text: "Sporttinen"
+
+          },
+          {
+            value: "relaxed",
+            text: "Letkeä"
+
+          }
+        ]
+
+      const question4 = [
+        {
+          value: "summer",
+          text: "Hyvän sään pyöräily"
+
+        },
+        {
+          value: "autumn",
+          text: "Puolivuotinen pyöräily"
+
+        },
+        {
+          value: "winter",
+          text: "Ympärivuotuinen pyöräily"
+        }
+      ]
+
+      const question5 = [
+        {
+          value: "cheap",
+          text: "💸"
+        },
+        {
+          value: "medium_priced",
+          text: "💸💸"
+        }
+      ]
+
+
+
+      const [isResultVisible, setIsResultVisible] = React.useState(true)
+
+      const [q1Value, setQ1Value] = React.useState("none") // omistatko polkupyörän
+      const [q2Value, setQ2Value] = React.useState("none") // polkupyörän yleinen tyyppi
+      const [q3Value, setQ3Value] = React.useState("none") // normaalin pyörän tyyppi
+      const [q4Value, setQ4Value] = React.useState("none") // sää
+      const [q5Value, setQ5Value] = React.useState("none") // hintaluokka
+
+      const [total, setTotal] = React.useState(0)
+      const [priceMap, setPriceMap] = React.useState({})
+
+      const bicycleSelectRef = React.createRef()
+      const regularBicycleSelectRef = React.createRef()
+     
+
+      const handleQ1Change = (event) => {
+        console.log("Q1", event.target.value)
+        console.log(event.target)
+        setQ1Value(event.target.value)
+        const value = event.target.value
+
+        if (value === "no") {
+          bicycleSelectRef.current.show()
+        } else {
+          bicycleSelectRef.current.hide()
+        }
+      }
+
+      const handleQ2Change = (event) => {
+        console.log("Q2", event.target.value)
+        const value = event.target.value
+        setQ2Value(value)
+        if (value === "regular") {
+          regularBicycleSelectRef.current.show()
+        } else {
+          regularBicycleSelectRef.current.hide()
+        }
+      }
+
+      const handleQ3Change = (event) => {
+        console.log("Q3", event.target.value)
+        const value = event.target.value
+        setQ3Value(value)
+      }
+
+      const handleQ4Change = (event) => {
+        console.log("Q4", event.target.value)
+        const value = event.target.value
+        setQ4Value(value)
+      }
+
+      const handleQ5Change = (event) => {
+        console.log("Q5", event.target.value)
+        const value = event.target.value
+        setQ5Value(value)
+      }
+
+
+      const handleSubmit = (evt) => {
+        evt.preventDefault()
+        console.log("Submitted")
+        setIsResultVisible(true)
+      }
+
+      const handleRadio = (evt) => {
+        console.log("RADIO", evt.target.value)
+      }
+
+
+
+      const updateMap = (key, value) => {
+        const map = { ...priceMap, [key]: value }
+        setPriceMap(map)
+        console.log("MAIN, UPDATE MAP", map)
+        console.log("SUM", calculateSum(map))
+        setTotal(calculateSum(map))
+      }
+
+      return (
+        <div>
+          <nav className="navbar navbar-light bg-light fixed-top">
+            <span className="navbar-brand mb-0">£{total}</span>
+          </nav>
+
+
+          <div className="container">
+            <h1>Työmatkapyöräilijän paketti</h1>
+            <br />
+            <form onSubmit={handleSubmit}>
+
+
+
+              <SelectableRadio items={question1} onChange={handleQ1Change} value={q1Value} id="q1" title="Omistatko polkupyörän?" />
+
+              <Togglable ref={bicycleSelectRef}>
+
+                <SelectableRadio items={question2} onChange={handleQ2Change} value={q2Value} id="q2" title="Millainen pyörä?" />
+
+
+                <Togglable ref={regularBicycleSelectRef}>
+                  <SelectableDropDown items={question3} onChange={handleQ3Change} value={q3Value} id="q3" title="Tavallisen pyörän tyyppi" />
+                </Togglable>
+
+              </Togglable>
+
+              <SelectableRadio items={question4} onChange={handleQ4Change} value={q4Value} id="q4" title="Käyttötarve" />
+
+              
+
+              <SelectableRadio items={question5} onChange={handleQ5Change} value={q5Value} id="q5" title="Hintaluokka" />
+              <br />
+
+            </form>
+
+            <div>
+              <h2>Suosittelemme seuraavia tuotteita</h2>
+              <h3>Valitse haluamasi tuotteet</h3>
+              <hr />
+              <Result isVisible={isResultVisible} q1={q1Value} q2={q2Value} q3={q3Value} updateMap={updateMap} />
+            </div>
+
+          </div>
+        </div>
+
+      )
+    }
+
+    const TotalPrice = ({ priceMap }) => {
+
+      const handleClick = () => {
+        console.log(priceMap)
+      }
+
+      const style = {
+        position: 'fixed',
+        right: '100px',
+        bottom: '100px',
+      }
+
+      return (<button style={style} onClick={handleClick}>Update Price</button>)
+    }
+
+    const SelectableRadio = ({ items, onChange, value, id, title }) => {
+
+      const options = items.map((item, index) =>
+        <div key={index}>
+          <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
+          <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
+        </div>
+      )      
+
+      return (
+        <div className="form-group">
+          <div className="customRadioDiv">
+
+            <h3>{title}</h3>
+            {options}
+          </div>
+        </div>
+      )
+
+    }
+
+
+    const SelectableDropDown = ({ items, onChange, value, id, title }) => {
+
+      const options = items.map((item, index) =>
+        <option key={index} value={item.value}>{item.text}</option>
+      )
+
+      return (
+
+        <div className="form-group">
+          <label htmlFor={id}><h3>{title}</h3></label>
+          <select className="form-control" id={id} onChange={onChange} value={value}>
+            {
+              options
+            }
+          </select>
+        </div>
+
+      )
+    }
+
+    const OptionsList = ({ items, onDelete }) => {
+
+      const options = items.map((item, index) =>
+        <div key={index}>
+          <input type="checkbox" className="form-check-input" id={'optional' + index} />
+          <label className="form-check-label" htmlFor={'optional' + index}> {item} </label>
+        </div>
+      )
+
+      return (
+        <div>
+          {options}
+        </div>
+      )
+    }
+
+
+    /*
+    * @Data List of items of type {src, price}
+    * where src = Image url, price = figure it out
+    *
+    */
+    const Product = ({ title, productKey, onChangePrice, data }) => {
+
+
+      const [selected, setSelected] = React.useState(-1)    
+
+      const handleSelect = (id) => {
+        
+        if (selected === id) {
+          setSelected(-1)
+          onChangePrice(productKey, 0)
+        } else {
+          setSelected(id)
+          onChangePrice(productKey, data[id].price)
+        }
+        console.log(data[id].price)
+
+      }
+      
+      const productImages = data.map((item, index) => <ProductImage key={index} src={item.src} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)
+
+      return (
+        <div>
+          <h3>{title}</h3>
+          <div className="row">
+            {productImages}
+          </div>
+        </div>
+      )
+
+    }
+
+    /**
+    * Selectable product (image)
+    */
+    const ProductImage = ({ id, src, selected, handleSelect, price }) => {
+
+      const imgStyleSelected = {
+        maxHeight: '300px',
+        padding: '10px',
+        backgroundColor: '#44bcd8',
+        margin: '10px 10px 10px 0px'
+      };
+
+      const imgStyle = {
+        maxHeight: '300px',
+        padding: '10px',
+        margin: '10px 10px 10px 0px'
+      };
+
+      let imageStyle = {}
+
+      if (selected == id) {
+        imageStyle = imgStyleSelected
+      } else {
+        imageStyle = imgStyle
+      }
+
+      return (
+        <div>
+          <img onClick={() => handleSelect(id)} src={src} style={imageStyle} />
+          <h3>£{price}</h3>
+        </div>
+      )
+    }
+
+
+    /**
+    * Shows the result
+    */
+    const Result = ({ isVisible, q1, q2, q3, q4, updateMap }) => {
+      
+      const onChangePrice = (productKey, value) => {
+        updateMap(productKey, value)
+      }
+
+      return (
+
+        <div>
+          <Product productKey="helmet" title="Kypärät" onChangePrice={onChangePrice} data={helmets} />
+          {createBikeComponent(q1, q2, q3, onChangePrice)}
+        </div>
+
+      )
+    }
+
+    const createBikeComponent = (q1, q2, q3, onChangePrice) => {
+      let bikeComponent = <div></div>
+      let data = []
+      let title = ""
+
+      if (q1 === "no" && q2 === "regular" && q3 === "sporty") {
+        title = "Sporttinen pyörä"
+        data = regularSportyBikes
+      } else if (q1 === "no" && q2 === "regular" && q3 === "relaxed") {
+        title = "Relaxed bikes"
+        data = regularRelaxedBikes
+      } else if (q1 === "no" && q2 === "electric") {
+        title = "Electric bikes"
+        data = electricBikes
+      } else if (q1 === "no" && q2 === "cargo") {
+        title = "Kuormapyörä"
+        data = cargoBikes
+      } else {
+        title = "Ei pyörää"
+        bikeComponent = []
+      }
+      return <Product productKey="bike" title={title} onChangePrice={onChangePrice} data={data} />
+    }
+
+    const helmets = [
+      {
+        price: 40,
+        src: "https://previews.123rf.com/images/blakeley/blakeley0910/blakeley091000025/5783283-a-us-military-helmet-with-an-m1-mitchell-pattern-camouflage-cover-from-the-vietnam-war-and-six-round.jpg"
+      }
+    ]
+
+    const regularSportyBikes = [
+      {
+        price: 500,
+        src: "https://www.bikester.fi/editorial/entrypages/bkfi/20200206/rennrad.jpg",
+
+      },
+      {
+        price: 300,
+        src: "https://www.bikester.fi/editorial/entrypages/bkfi/20200206/rennrad.jpg"
+      }
+    ]
+
+    const electricBikes = [
+      {
+        price: 200,
+        src: "https://www.agogs.com/uploads/products/6/big/cityliner-easy.png"
+      }
+    ]
+
+    const cargoBikes = [
+      {
+        price: 600,
+        src: "https://velosport.fi/verkkokauppa/documents/516e60eb1c967/_CARGO-TRIKE-S.jpg"
+      }
+    ]
+
+    const regularRelaxedBikes = [
+      {
+        price: 100,
+        src: "https://www.crescent.fi/media/catalog/product/cache/1/small_image/500x400/9df78eab33525d08d6e5fb8d27136e95/e/l/ella_k/ELLA-3-v.jpg"
+      },
+      {
+        price: 200,
+        src: "https://www.crescent.fi/media/catalog/product/cache/1/small_image/500x400/9df78eab33525d08d6e5fb8d27136e95/e/l/ella_k/ELLA-3-v.jpg"
+      }
+    ]
+    //
+
+    const calculateSum = (m) => {
+      return Object.keys(m).map(key => m[key]).reduce((total, current) => total + current, 0)
+    }
+
+
+    /**
+    * Togglable component to show/hide content
+    */
+    const Togglable = React.forwardRef((props, ref) => {
+      const [visible, setVisible] = React.useState(false)
+
+      const hideWhenVisible = { display: visible ? 'none' : '' }
+      const showWhenVisible = { display: visible ? '' : 'none' }
+
+      const toggleVisibility = () => {
+        setVisible(!visible)
+      }
+
+      const show = () => {
+        setVisible(true)
+      }
+
+      const hide = () => {
+        setVisible(false)
+      }
+
+      React.useImperativeHandle(ref, () => {
+        return {
+          toggleVisibility,
+          show,
+          hide
+        }
+      })
+
+      return (
+
+        <div style={showWhenVisible} className="togglableContent">
+          {props.children}
+        </div>
+
+      )
+    })
+
+    //render
+    const domContainer = document.querySelector('#questions');
+    ReactDOM.render(<App />, domContainer);
+
+
+  </script>
+
+
+
+</body>
+
+</html>

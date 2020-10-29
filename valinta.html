@@ -153,12 +153,12 @@
 
         selections: [
           {
-            value: "no",
+            value: "no_bike",
             text: "En"
 
           },
           {
-            value: "yes",
+            value: "yes_bike",
             text: "Kyllä"
 
           }
@@ -189,18 +189,19 @@
         ]
       }
 
+      // optional question!
       const question3 =
       {
         title: "Pyöräiletkö vain lyhyitä kaupunkimatkoja (alle 8 km)?",
 
         selections: [
           {
-            value: "yes",
+            value: "short",
             text: "Kyllä"
 
           },
           {
-            value: "no",
+            value: "long",
             text: "Ei, myös pidempiä matkoja"
           }
         ]
@@ -212,12 +213,12 @@
 
         selections: [
           {
-            value: "yes",
+            value: "yes_cargo",
             text: "Kyllä"
 
           },
           {
-            value: "no",
+            value: "no_cargo",
             text: "Ei"
           }
         ]
@@ -229,12 +230,12 @@
 
         selections: [
           {
-            value: "yes",
+            value: "yes_child",
             text: "Kyllä"
 
           },
           {
-            value: "no",
+            value: "no_child",
             text: "Ei"
           }
         ]
@@ -251,7 +252,7 @@
           },
           {
             value: "medium",
-            text: "Kekitaso"
+            text: "Keskitaso"
           },
           {
             value: "expensive",
@@ -260,7 +261,129 @@
         ]
       }
 
+      const noBikeDict = {
+          dry: {
+            short: {
+              yes_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              },
+              no_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              }
 
+            },
+            long: {
+              yes_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              },
+              no_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              }
+
+            }
+          },
+          rainy: {
+            none: {
+              yes_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              },
+              no_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              }
+
+            }
+          },
+          snow: {
+            none: {
+              yes_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                  }
+              },
+              no_cargo: {
+                yes_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                },
+                no_child: {
+                  cheap: {},
+                  medium: {},
+                  expensive: {}
+                }
+              }
+            }
+          }
+
+        }
+
+       
+
+      const answerTree = {
+        no_bike: noBikeDict,
+        yes_bike: noBikeDict        
+      }
 
 
 
@@ -277,44 +400,54 @@
       const [total, setTotal] = React.useState(0)
       const [priceMap, setPriceMap] = React.useState({})
 
-      const bicycleSelectRef = React.createRef()
-      const regularBicycleSelectRef = React.createRef()
+      const selectRef = React.createRef()
+      //const regularBicycleSelectRef = React.createRef()
 
 
       const handleQ1Change = (event) => {
         const value = event.target.value
-        console.log("Q1", value)        
-        setQ1Value(value)        
+        console.log("Q1", value)
+        setQ1Value(value)
       }
 
       const handleQ2Change = (event) => {
         const value = event.target.value
-        console.log("Q2", value)        
-        setQ2Value(value)        
+        console.log("Q2", value)
+
+        if (value == "dry") {
+          selectRef.current.show()
+        } else {
+          setQ3Value("none")
+          selectRef.current.hide()
+
+        }
+        setQ2Value(value)
       }
 
       const handleQ3Change = (event) => {
         const value = event.target.value
-        console.log("Q3", value)        
+        console.log("Q3", value)
         setQ3Value(value)
       }
 
       const handleQ4Change = (event) => {
         const value = event.target.value
-        console.log("Q4", value)        
+        console.log("Q4", value)
         setQ4Value(value)
       }
 
       const handleQ5Change = (event) => {
         const value = event.target.value
-        console.log("Q5", value)        
+        console.log("Q5", value)
         setQ5Value(value)
       }
 
       const handleQ6Change = (event) => {
         const value = event.target.value
-        console.log("Q6", value)        
+        console.log("Q6", value)
         setQ6Value(value)
+        console.log(answerTree[q1Value][q2Value][q3Value][q4Value][q5Value][value])
+        console.log(answerTree[q1Value][q2Value][q3Value])
       }
 
       const handleSubmit = (evt) => {
@@ -348,13 +481,15 @@
 
               <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
 
-              <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
+              <Togglable ref={selectRef}>
+                <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
+              </Togglable>
 
               <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
-              
+
               <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
 
-              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q5" title={question6.title} />
+              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
               <br />
 
             </form>
@@ -391,6 +526,9 @@
 
       const options = items.map((item, index) =>
         <div key={index}>
+          {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked /> :
+            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
+          }
           <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
           <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
         </div>

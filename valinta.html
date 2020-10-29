@@ -140,12 +140,19 @@
 
     'use strict';
 
+    class Package {
+      constructor(title, price, imgScr) {
+        this.title = title;
+        this.price = price;
+        this.imgSrc = imgScr
+      }
+    }
+
+
+
 
     const App = (props) => {
 
-      // Questionnaire data
-
-      const optionalStuff = ["Pyörälaukku", "Pyöräilyreppu", "Lastenistuin", "Lastenkuljetuskärry"]
 
       const question1 =  // tarvitsetko pyörän
       {
@@ -189,7 +196,7 @@
         ]
       }
 
-      // optional question!
+      // optional question! shown if q2 = dry
       const question3 =
       {
         title: "Pyöräiletkö vain lyhyitä kaupunkimatkoja (alle 8 km)?",
@@ -261,14 +268,418 @@
         ]
       }
 
+      const basic = new Package("Peruspaketti", 399, "images/basic.PNG")
+      const basicPlus = new Package("Peruspaketti Plus", 499, "images/basicPlus.PNG")
+      const goodWeather = new Package("Hyvän sään paketti", 499, "images/goodWeather.PNG")
+
       const noBikeDict = {
+        dry: {
+          short: {
+            cheap: [],
+            medium: [[basic], [basicPlus, goodWeather]],
+            expensive: []
+          },
+          long: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        },
+        rainy: {
+          none: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        },
+        snow: {
+          none: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        }
+      }
+
+      const yesBikeDict = {
+        dry: {
+          short: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          },
+          long: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        },
+        rainy: {
+          none: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        },
+        snow: {
+          none: {
+            cheap: [],
+            medium: [],
+            expensive: []
+          }
+        }
+      }
+
+      const answerTree = {
+        no_bike: noBikeDict,
+        yes_bike: yesBikeDict
+      }
+
+
+
+
+      const [isResultVisible, setIsResultVisible] = React.useState(true)
+
+      const [q1Value, setQ1Value] = React.useState("none") // omistatko polkupyörän
+      const [q2Value, setQ2Value] = React.useState("none") // polkupyörän yleinen tyyppi
+      const [q3Value, setQ3Value] = React.useState("none") // normaalin pyörän tyyppi
+      const [q4Value, setQ4Value] = React.useState("none") // sää
+      const [q5Value, setQ5Value] = React.useState("none") // hintaluokka
+      const [q6Value, setQ6Value] = React.useState("none") // hintaluokka
+
+      const [total, setTotal] = React.useState(0)
+      const [priceMap, setPriceMap] = React.useState({})
+
+      const selectRef = React.createRef()
+      //const regularBicycleSelectRef = React.createRef()
+
+
+      const handleQ1Change = (event) => {
+        const value = event.target.value
+        console.log("Q1", value)
+        setQ1Value(value)
+      }
+
+      const handleQ2Change = (event) => {
+        const value = event.target.value
+        console.log("Q2", value)
+
+        if (value == "dry") {
+          selectRef.current.show()
+        } else {
+          setQ3Value("none")
+          selectRef.current.hide()
+
+        }
+        setQ2Value(value)
+      }
+
+      const handleQ3Change = (event) => {
+        const value = event.target.value
+        console.log("Q3", value)
+        setQ3Value(value)
+      }
+
+      const handleQ4Change = (event) => {
+        const value = event.target.value
+        console.log("Q4", value)
+        setQ4Value(value)
+      }
+
+      const handleQ5Change = (event) => {
+        const value = event.target.value
+        console.log("Q5", value)
+        setQ5Value(value)
+      }
+
+      const handleQ6Change = (event) => {
+        const value = event.target.value
+        console.log("Q6", value)
+        setQ6Value(value)
+
+      }
+
+      const handleSubmit = (evt) => {
+        evt.preventDefault()
+        console.log("Submitted")
+        setIsResultVisible(true)
+      }
+
+
+      const updateMap = (key, value) => {
+        const map = { ...priceMap, [key]: value }
+        setPriceMap(map)
+        console.log("MAIN, UPDATE MAP", map)
+        console.log("SUM", calculateSum(map))
+        setTotal(calculateSum(map))
+      }
+
+      return (
+        <div>
+          <nav className="navbar navbar-light bg-light fixed-top">
+            <span className="navbar-brand mb-0">£{total}</span>
+          </nav>
+
+
+          <div className="container">
+            <h1>Työmatkapyöräilijän paketti</h1>
+            <br />
+            <form onSubmit={handleSubmit}>
+
+              <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
+
+              <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
+
+              <Togglable ref={selectRef}>
+                <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
+              </Togglable>
+
+              <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
+
+              <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
+
+              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
+              <br />
+
+            </form>
+
+            <div>
+              <h2>Suosittelemme seuraavia tuotteita</h2>
+              <h3>Valitse haluamasi tuotteet</h3>
+              <hr />
+              <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} />
+            </div>
+
+          </div>
+        </div>
+
+      )
+    }
+
+    const TotalPrice = ({ priceMap }) => {
+
+      const handleClick = () => {
+        console.log(priceMap)
+      }
+
+      const style = {
+        position: 'fixed',
+        right: '100px',
+        bottom: '100px',
+      }
+
+      return (<button style={style} onClick={handleClick}>Update Price</button>)
+    }
+
+    const SelectableRadio = ({ items, onChange, value, id, title }) => {
+
+      const options = items.map((item, index) =>
+        <div key={index}>
+          {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked /> :
+            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
+          }
+          <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
+          <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
+        </div>
+      )
+
+      return (
+        <div className="form-group">
+          <div className="customRadioDiv">
+
+            <h3>{title}</h3>
+            {options}
+          </div>
+        </div>
+      )
+
+    }
+
+    const OptionsList = ({ items, onDelete }) => {
+
+      const options = items.map((item, index) =>
+        <div key={index}>
+          <input type="checkbox" className="form-check-input" id={'optional' + index} />
+          <label className="form-check-label" htmlFor={'optional' + index}> {item} </label>
+        </div>
+      )
+
+      return (
+        <div>
+          {options}
+        </div>
+      )
+    }
+
+    const Products = ({ productKey, onChangePrice, products }) => {
+
+
+      const [selected, setSelected] = React.useState(-1)
+
+      const handleSelect = (id) => {
+
+        if (selected === id) {
+          setSelected(-1)
+          onChangePrice(productKey, 0)
+        } else {
+          setSelected(id)
+          onChangePrice(productKey, products[id].price)
+        }
+
+
+      }
+
+      const productImages = products.map((item, index) => <ProductImage key={index} title={item.title} src={item.imgSrc} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)
+
+
+      return (
+        <div>
+          <div className="row">
+            {productImages}
+          </div>
+        </div>
+      )
+    }
+
+    /**
+    * Selectable product (image)
+    */
+    const ProductImage = ({ id, title, src, selected, handleSelect, price }) => {
+
+      const imgStyleSelected = {
+        maxHeight: '300px',
+        padding: '10px',
+        backgroundColor: '#44bcd8',
+        margin: '10px 10px 10px 0px'
+      };
+
+      const imgStyle = {
+        maxHeight: '300px',
+        padding: '10px',
+        margin: '10px 10px 10px 0px'
+      };
+
+      let imageStyle = {}
+
+      if (selected == id) {
+        imageStyle = imgStyleSelected
+      } else {
+        imageStyle = imgStyle
+      }
+
+      return (
+        <div>
+          <h3>{title}</h3>
+          <img onClick={() => handleSelect(id)} src={src} style={imageStyle} />
+          <h3>£{price}</h3>
+        </div>
+      )
+    }
+
+
+    /**
+    * Shows the result
+    */
+    const Result = ({ isVisible, q1, q2, q3, q4, q5, q6, updateMap, answerTree }) => {
+
+      React.useEffect(() => console.log("calculate intial total price"), [])
+
+      const onChangePrice = (productKey, value) => {
+        updateMap(productKey, value)
+      }
+
+      let packets = null
+
+      // just some ugly hacks to read the answer tree if all the selections are not made...
+      try {
+        packets = answerTree[q1][q2][q3][q6]       
+
+      } catch (error) {
+        return (<div>No selection</div>)
+      }
+
+      if (!Array.isArray(packets)) {
+        return (<div>No selection</div>)
+      }
+
+      if (packets.length === 0) {
+        return (<div>No selection</div>)
+      }
+
+
+
+      console.log("PACKETS", packets)
+      console.log(packets[0].title)
+
+      const prods = packets.map((item, index) => <Products productKey={index} onChangePrice={onChangePrice} products={item} />)
+
+      return (
+
+        <div>
+          { prods}
+        </div>
+
+      )
+    }
+
+
+
+    const calculateSum = (m) => {
+      return Object.keys(m).map(key => m[key]).reduce((total, current) => total + current, 0)
+    }
+
+
+    /**
+    * Togglable component to show/hide content
+    */
+    const Togglable = React.forwardRef((props, ref) => {
+      const [visible, setVisible] = React.useState(false)
+
+      const hideWhenVisible = { display: visible ? 'none' : '' }
+      const showWhenVisible = { display: visible ? '' : 'none' }
+
+      const toggleVisibility = () => {
+        setVisible(!visible)
+      }
+
+      const show = () => {
+        setVisible(true)
+      }
+
+      const hide = () => {
+        setVisible(false)
+      }
+
+      React.useImperativeHandle(ref, () => {
+        return {
+          toggleVisibility,
+          show,
+          hide
+        }
+      })
+
+      return (
+
+        <div style={showWhenVisible} className="togglableContent">
+          {props.children}
+        </div>
+
+      )
+    })
+
+    //render
+    const domContainer = document.querySelector('#questions');
+    ReactDOM.render(<App />, domContainer);
+
+    /** full dict!
+    const noBikeDict = {
           dry: {
             short: {
               yes_cargo: {
                 yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
+                  cheap: "peruspaketti, hyvän sään pyöräilijän paketti + lasten kuljetus + city bike",
+                  medium: "peruspaketti, peruspaketti plus, jotain jo omistavan paketti, hyvänsään pyörälijän paketti + lasten kuljetus + edullisempi hybridi",
+                  expensive: "peruspaketti plys"
                 },
                 no_child: {
                   cheap: {},
@@ -376,421 +787,7 @@
             }
           }
 
-        }
-
-       
-
-      const answerTree = {
-        no_bike: noBikeDict,
-        yes_bike: noBikeDict        
-      }
-
-
-
-
-      const [isResultVisible, setIsResultVisible] = React.useState(true)
-
-      const [q1Value, setQ1Value] = React.useState("none") // omistatko polkupyörän
-      const [q2Value, setQ2Value] = React.useState("none") // polkupyörän yleinen tyyppi
-      const [q3Value, setQ3Value] = React.useState("none") // normaalin pyörän tyyppi
-      const [q4Value, setQ4Value] = React.useState("none") // sää
-      const [q5Value, setQ5Value] = React.useState("none") // hintaluokka
-      const [q6Value, setQ6Value] = React.useState("none") // hintaluokka
-
-      const [total, setTotal] = React.useState(0)
-      const [priceMap, setPriceMap] = React.useState({})
-
-      const selectRef = React.createRef()
-      //const regularBicycleSelectRef = React.createRef()
-
-
-      const handleQ1Change = (event) => {
-        const value = event.target.value
-        console.log("Q1", value)
-        setQ1Value(value)
-      }
-
-      const handleQ2Change = (event) => {
-        const value = event.target.value
-        console.log("Q2", value)
-
-        if (value == "dry") {
-          selectRef.current.show()
-        } else {
-          setQ3Value("none")
-          selectRef.current.hide()
-
-        }
-        setQ2Value(value)
-      }
-
-      const handleQ3Change = (event) => {
-        const value = event.target.value
-        console.log("Q3", value)
-        setQ3Value(value)
-      }
-
-      const handleQ4Change = (event) => {
-        const value = event.target.value
-        console.log("Q4", value)
-        setQ4Value(value)
-      }
-
-      const handleQ5Change = (event) => {
-        const value = event.target.value
-        console.log("Q5", value)
-        setQ5Value(value)
-      }
-
-      const handleQ6Change = (event) => {
-        const value = event.target.value
-        console.log("Q6", value)
-        setQ6Value(value)
-        console.log(answerTree[q1Value][q2Value][q3Value][q4Value][q5Value][value])
-        console.log(answerTree[q1Value][q2Value][q3Value])
-      }
-
-      const handleSubmit = (evt) => {
-        evt.preventDefault()
-        console.log("Submitted")
-        setIsResultVisible(true)
-      }
-
-
-      const updateMap = (key, value) => {
-        const map = { ...priceMap, [key]: value }
-        setPriceMap(map)
-        console.log("MAIN, UPDATE MAP", map)
-        console.log("SUM", calculateSum(map))
-        setTotal(calculateSum(map))
-      }
-
-      return (
-        <div>
-          <nav className="navbar navbar-light bg-light fixed-top">
-            <span className="navbar-brand mb-0">£{total}</span>
-          </nav>
-
-
-          <div className="container">
-            <h1>Työmatkapyöräilijän paketti</h1>
-            <br />
-            <form onSubmit={handleSubmit}>
-
-              <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
-
-              <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
-
-              <Togglable ref={selectRef}>
-                <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
-              </Togglable>
-
-              <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
-
-              <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
-
-              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
-              <br />
-
-            </form>
-
-            <div>
-              <h2>Suosittelemme seuraavia tuotteita</h2>
-              <h3>Valitse haluamasi tuotteet</h3>
-              <hr />
-              <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} updateMap={updateMap} />
-            </div>
-
-          </div>
-        </div>
-
-      )
-    }
-
-    const TotalPrice = ({ priceMap }) => {
-
-      const handleClick = () => {
-        console.log(priceMap)
-      }
-
-      const style = {
-        position: 'fixed',
-        right: '100px',
-        bottom: '100px',
-      }
-
-      return (<button style={style} onClick={handleClick}>Update Price</button>)
-    }
-
-    const SelectableRadio = ({ items, onChange, value, id, title }) => {
-
-      const options = items.map((item, index) =>
-        <div key={index}>
-          {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked /> :
-            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
-          }
-          <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
-          <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
-        </div>
-      )
-
-      return (
-        <div className="form-group">
-          <div className="customRadioDiv">
-
-            <h3>{title}</h3>
-            {options}
-          </div>
-        </div>
-      )
-
-    }
-
-
-    const SelectableDropDown = ({ items, onChange, value, id, title }) => {
-
-      const options = items.map((item, index) =>
-        <option key={index} value={item.value}>{item.text}</option>
-      )
-
-      return (
-
-        <div className="form-group">
-          <label htmlFor={id}><h3>{title}</h3></label>
-          <select className="form-control" id={id} onChange={onChange} value={value}>
-            {
-              options
-            }
-          </select>
-        </div>
-
-      )
-    }
-
-    const OptionsList = ({ items, onDelete }) => {
-
-      const options = items.map((item, index) =>
-        <div key={index}>
-          <input type="checkbox" className="form-check-input" id={'optional' + index} />
-          <label className="form-check-label" htmlFor={'optional' + index}> {item} </label>
-        </div>
-      )
-
-      return (
-        <div>
-          {options}
-        </div>
-      )
-    }
-
-
-    /*
-    * @Data List of items of type {src, price}
-    * where src = Image url, price = figure it out
-    *
-    */
-    const Product = ({ title, productKey, onChangePrice, data }) => {
-
-
-      const [selected, setSelected] = React.useState(-1)
-
-      const handleSelect = (id) => {
-
-        if (selected === id) {
-          setSelected(-1)
-          onChangePrice(productKey, 0)
-        } else {
-          setSelected(id)
-          onChangePrice(productKey, data[id].price)
-        }
-        console.log(data[id].price)
-
-      }
-
-      const productImages = data.map((item, index) => <ProductImage key={index} src={item.src} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)
-
-      return (
-        <div>
-          <h3>{title}</h3>
-          <div className="row">
-            {productImages}
-          </div>
-        </div>
-      )
-
-    }
-
-    /**
-    * Selectable product (image)
-    */
-    const ProductImage = ({ id, src, selected, handleSelect, price }) => {
-
-      const imgStyleSelected = {
-        maxHeight: '300px',
-        padding: '10px',
-        backgroundColor: '#44bcd8',
-        margin: '10px 10px 10px 0px'
-      };
-
-      const imgStyle = {
-        maxHeight: '300px',
-        padding: '10px',
-        margin: '10px 10px 10px 0px'
-      };
-
-      let imageStyle = {}
-
-      if (selected == id) {
-        imageStyle = imgStyleSelected
-      } else {
-        imageStyle = imgStyle
-      }
-
-      return (
-        <div>
-          <img onClick={() => handleSelect(id)} src={src} style={imageStyle} />
-          <h3>£{price}</h3>
-        </div>
-      )
-    }
-
-
-    /**
-    * Shows the result
-    */
-    const Result = ({ isVisible, q1, q2, q3, q4, updateMap }) => {
-
-      const onChangePrice = (productKey, value) => {
-        updateMap(productKey, value)
-      }
-
-      return (
-
-        <div>
-          <Product productKey="helmet" title="Kypärät" onChangePrice={onChangePrice} data={helmets} />
-          {createBikeComponent(q1, q2, q3, onChangePrice)}
-        </div>
-
-      )
-    }
-
-    const createBikeComponent = (q1, q2, q3, onChangePrice) => {
-      let bikeComponent = <div></div>
-      let data = []
-      let title = ""
-
-      if (q1 === "no" && q2 === "regular" && q3 === "sporty") {
-        title = "Sporttinen pyörä"
-        data = regularSportyBikes
-      } else if (q1 === "no" && q2 === "regular" && q3 === "relaxed") {
-        title = "Relaxed bikes"
-        data = regularRelaxedBikes
-      } else if (q1 === "no" && q2 === "electric") {
-        title = "Electric bikes"
-        data = electricBikes
-      } else if (q1 === "no" && q2 === "cargo") {
-        title = "Kuormapyörä"
-        data = cargoBikes
-      } else {
-        title = "Ei pyörää"
-        bikeComponent = []
-      }
-      return <Product productKey="bike" title={title} onChangePrice={onChangePrice} data={data} />
-    }
-
-    const helmets = [
-      {
-        price: 40,
-        src: "https://previews.123rf.com/images/blakeley/blakeley0910/blakeley091000025/5783283-a-us-military-helmet-with-an-m1-mitchell-pattern-camouflage-cover-from-the-vietnam-war-and-six-round.jpg"
-      }
-    ]
-
-    const regularSportyBikes = [
-      {
-        price: 500,
-        src: "https://www.bikester.fi/editorial/entrypages/bkfi/20200206/rennrad.jpg",
-
-      },
-      {
-        price: 300,
-        src: "https://www.bikester.fi/editorial/entrypages/bkfi/20200206/rennrad.jpg"
-      }
-    ]
-
-    const electricBikes = [
-      {
-        price: 200,
-        src: "https://www.agogs.com/uploads/products/6/big/cityliner-easy.png"
-      }
-    ]
-
-    const cargoBikes = [
-      {
-        price: 600,
-        src: "https://velosport.fi/verkkokauppa/documents/516e60eb1c967/_CARGO-TRIKE-S.jpg"
-      }
-    ]
-
-    const regularRelaxedBikes = [
-      {
-        price: 100,
-        src: "https://www.crescent.fi/media/catalog/product/cache/1/small_image/500x400/9df78eab33525d08d6e5fb8d27136e95/e/l/ella_k/ELLA-3-v.jpg"
-      },
-      {
-        price: 200,
-        src: "https://www.crescent.fi/media/catalog/product/cache/1/small_image/500x400/9df78eab33525d08d6e5fb8d27136e95/e/l/ella_k/ELLA-3-v.jpg"
-      }
-    ]
-    //
-
-    const calculateSum = (m) => {
-      return Object.keys(m).map(key => m[key]).reduce((total, current) => total + current, 0)
-    }
-
-
-    /**
-    * Togglable component to show/hide content
-    */
-    const Togglable = React.forwardRef((props, ref) => {
-      const [visible, setVisible] = React.useState(false)
-
-      const hideWhenVisible = { display: visible ? 'none' : '' }
-      const showWhenVisible = { display: visible ? '' : 'none' }
-
-      const toggleVisibility = () => {
-        setVisible(!visible)
-      }
-
-      const show = () => {
-        setVisible(true)
-      }
-
-      const hide = () => {
-        setVisible(false)
-      }
-
-      React.useImperativeHandle(ref, () => {
-        return {
-          toggleVisibility,
-          show,
-          hide
-        }
-      })
-
-      return (
-
-        <div style={showWhenVisible} className="togglableContent">
-          {props.children}
-        </div>
-
-      )
-    })
-
-    //render
-    const domContainer = document.querySelector('#questions');
-    ReactDOM.render(<App />, domContainer);
-
-
+        }*/
   </script>
 
 

@@ -116,11 +116,11 @@
 </head>
 
 <body>
-  
+
   <div id="questions">
     <!-- We will put our React component inside this div. -->
   </div>
-  
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -147,8 +147,53 @@
 
       const optionalStuff = ["Pyörälaukku", "Pyöräilyreppu", "Lastenistuin", "Lastenkuljetuskärry"]
 
-      const question1 =
-        [
+      const question1 =  // tarvitsetko pyörän
+      {
+        title: "Tarvitsetko uuden pyörän?",
+
+        selections: [
+          {
+            value: "no",
+            text: "En"
+
+          },
+          {
+            value: "yes",
+            text: "Kyllä"
+
+          }
+        ]
+
+      }
+
+      const question2 =
+      {
+        title: "Minkälaisiin sääoloihin etsit pyörää/varusteita?",
+
+        selections: [
+          {
+            value: "dry",
+            text: "Vain kuivalle kelille"
+
+          },
+          {
+            value: "rainy",
+            text: "Myös sateiselle kelille"
+
+          },
+          {
+            value: "snow",
+            text: "Myös lukiselle talvikelille"
+
+          }
+        ]
+      }
+
+      const question3 =
+      {
+        title: "Pyöräiletkö vain lyhyitä kaupunkimatkoja (alle 8 km)?",
+
+        selections: [
           {
             value: "yes",
             text: "Kyllä"
@@ -156,71 +201,67 @@
           },
           {
             value: "no",
-            text: "En / Tarvitsen uuden"
-
+            text: "Ei, myös pidempiä matkoja"
           }
         ]
+      }
 
-      const question2 =
-        [
+      const question4 =
+      {
+        title: "Onko sinulla tarvettaa kuljettaa tavaroita pyörällä?",
+
+        selections: [
           {
-            value: "electric",
-            text: "Sähköpyörä"
+            value: "yes",
+            text: "Kyllä"
 
           },
           {
-            value: "cargo",
-            text: "Kuormapyörä"
+            value: "no",
+            text: "Ei"
+          }
+        ]
+      }
+
+      const question5 =
+      {
+        title: "Onko sinulla tarvettaa kuljettaa lapsia pyörällä?",
+
+        selections: [
+          {
+            value: "yes",
+            text: "Kyllä"
 
           },
           {
-            value: "regular",
-            text: "Tavallinen polkupyörä"
-
+            value: "no",
+            text: "Ei"
           }
         ]
+      }
 
-      const question3 =
-        [
+      const question6 =
+      {
+        title: "Hintataso?",
+
+        selections: [
           {
-            value: "sporty",
-            text: "Sporttinen"
-
+            value: "cheap",
+            text: "Edullinen"
           },
           {
-            value: "relaxed",
-            text: "Letkeä"
-
+            value: "medium",
+            text: "Kekitaso"
+          },
+          {
+            value: "expensive",
+            text: "Kallis"
           }
         ]
+      }
 
-      const question4 = [
-        {
-          value: "summer",
-          text: "Hyvän sään pyöräily"
 
-        },
-        {
-          value: "autumn",
-          text: "Puolivuotinen pyöräily"
 
-        },
-        {
-          value: "winter",
-          text: "Ympärivuotuinen pyöräily"
-        }
-      ]
-
-      const question5 = [
-        {
-          value: "cheap",
-          text: "💸"
-        },
-        {
-          value: "medium_priced",
-          text: "💸💸"
-        }
-      ]
 
 
 
@@ -231,67 +272,56 @@
       const [q3Value, setQ3Value] = React.useState("none") // normaalin pyörän tyyppi
       const [q4Value, setQ4Value] = React.useState("none") // sää
       const [q5Value, setQ5Value] = React.useState("none") // hintaluokka
+      const [q6Value, setQ6Value] = React.useState("none") // hintaluokka
 
       const [total, setTotal] = React.useState(0)
       const [priceMap, setPriceMap] = React.useState({})
 
       const bicycleSelectRef = React.createRef()
       const regularBicycleSelectRef = React.createRef()
-     
+
 
       const handleQ1Change = (event) => {
-        console.log("Q1", event.target.value)
-        console.log(event.target)
-        setQ1Value(event.target.value)
         const value = event.target.value
-
-        if (value === "no") {
-          bicycleSelectRef.current.show()
-        } else {
-          bicycleSelectRef.current.hide()
-        }
+        console.log("Q1", value)        
+        setQ1Value(value)        
       }
 
       const handleQ2Change = (event) => {
-        console.log("Q2", event.target.value)
         const value = event.target.value
-        setQ2Value(value)
-        if (value === "regular") {
-          regularBicycleSelectRef.current.show()
-        } else {
-          regularBicycleSelectRef.current.hide()
-        }
+        console.log("Q2", value)        
+        setQ2Value(value)        
       }
 
       const handleQ3Change = (event) => {
-        console.log("Q3", event.target.value)
         const value = event.target.value
+        console.log("Q3", value)        
         setQ3Value(value)
       }
 
       const handleQ4Change = (event) => {
-        console.log("Q4", event.target.value)
         const value = event.target.value
+        console.log("Q4", value)        
         setQ4Value(value)
       }
 
       const handleQ5Change = (event) => {
-        console.log("Q5", event.target.value)
         const value = event.target.value
+        console.log("Q5", value)        
         setQ5Value(value)
       }
 
+      const handleQ6Change = (event) => {
+        const value = event.target.value
+        console.log("Q6", value)        
+        setQ6Value(value)
+      }
 
       const handleSubmit = (evt) => {
         evt.preventDefault()
         console.log("Submitted")
         setIsResultVisible(true)
       }
-
-      const handleRadio = (evt) => {
-        console.log("RADIO", evt.target.value)
-      }
-
 
 
       const updateMap = (key, value) => {
@@ -314,26 +344,17 @@
             <br />
             <form onSubmit={handleSubmit}>
 
+              <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
 
+              <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
 
-              <SelectableRadio items={question1} onChange={handleQ1Change} value={q1Value} id="q1" title="Omistatko polkupyörän?" />
+              <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
 
-              <Togglable ref={bicycleSelectRef}>
-
-                <SelectableRadio items={question2} onChange={handleQ2Change} value={q2Value} id="q2" title="Millainen pyörä?" />
-
-
-                <Togglable ref={regularBicycleSelectRef}>
-                  <SelectableDropDown items={question3} onChange={handleQ3Change} value={q3Value} id="q3" title="Tavallisen pyörän tyyppi" />
-                </Togglable>
-
-              </Togglable>
-
-              <SelectableRadio items={question4} onChange={handleQ4Change} value={q4Value} id="q4" title="Käyttötarve" />
-
+              <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
               
+              <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
 
-              <SelectableRadio items={question5} onChange={handleQ5Change} value={q5Value} id="q5" title="Hintaluokka" />
+              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q5" title={question6.title} />
               <br />
 
             </form>
@@ -342,7 +363,7 @@
               <h2>Suosittelemme seuraavia tuotteita</h2>
               <h3>Valitse haluamasi tuotteet</h3>
               <hr />
-              <Result isVisible={isResultVisible} q1={q1Value} q2={q2Value} q3={q3Value} updateMap={updateMap} />
+              <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} updateMap={updateMap} />
             </div>
 
           </div>
@@ -373,7 +394,7 @@
           <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
           <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
         </div>
-      )      
+      )
 
       return (
         <div className="form-group">
@@ -433,10 +454,10 @@
     const Product = ({ title, productKey, onChangePrice, data }) => {
 
 
-      const [selected, setSelected] = React.useState(-1)    
+      const [selected, setSelected] = React.useState(-1)
 
       const handleSelect = (id) => {
-        
+
         if (selected === id) {
           setSelected(-1)
           onChangePrice(productKey, 0)
@@ -447,7 +468,7 @@
         console.log(data[id].price)
 
       }
-      
+
       const productImages = data.map((item, index) => <ProductImage key={index} src={item.src} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)
 
       return (
@@ -500,7 +521,7 @@
     * Shows the result
     */
     const Result = ({ isVisible, q1, q2, q3, q4, updateMap }) => {
-      
+
       const onChangePrice = (productKey, value) => {
         updateMap(productKey, value)
       }

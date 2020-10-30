@@ -150,8 +150,29 @@
       }
     }
 
+    // packages
+    const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
+      const basicPremium = new Package("Peruspaketti Plus", 150, "images/basicPlus.PNG")
+      
+      const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG")
+      const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG")
+      const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG")
+      const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG")
+      const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 70, "images/good_weather_short.PNG")
+      
+      const proBiker = new Package("Pro-pyöräilijän paketti", 340, "images/proBiker.png")
 
+      // bikes
+      const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
+      const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png")
+      const expensiveHybrid = new Package("Hybridi", 900, "images/expensiveHybrid.PNG")
+      const citybike = new Package("City-pyörä", 350, "images/citybike.png")
+      const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png")
 
+      //seats
+      const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG")
+      const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG") 
+      const babySeat = new Package("Lastenistuin", 100, "images/babySeat.PNG")
 
     const App = (props) => {
 
@@ -193,7 +214,7 @@
           },
           {
             value: "snow",
-            text: "Myös lukiselle talvikelille"
+            text: "Myös lumiselle talvikelille"
 
           }
         ]
@@ -271,47 +292,33 @@
         ]
       }
 
-      // packages
-      const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
-      const basicPremium = new Package("Peruspaketti Plus", 150, "images/basicPlus.PNG")
       
-      const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG")
-      const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG")
-      const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG")
-      const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG")
-      const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 999, "images/good_weather_short.PNG")
-      // bikes
-      const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
-      const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png")
-      const citybike = new Package("City-pyörä", 350, "images/citybike.png")
-      const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png")
-
 
       const answerTree = {
         dry: {
           short: {
-            cheap: { packages: [[basic]], bike: [citybike] },
+            cheap: { packages: [[basic], [goodWeatherShort]], bike: [citybike] },
             medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherShort]], bike: [cheaperHybrid] },
-            expensive: { packages: [[basic, basicPremium]], bike: [hybrid, cityElectric] }
+            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherShort]], bike: [expensiveHybrid, cityElectric] }
           },
           long: {
-            cheap: { packages: [[basic]], bike: [cheaperHybrid] },
+            cheap: { packages: [[basic], [goodWeatherLong]], bike: [cheaperHybrid] },
             medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherLong]], bike: [hybrid] },
-            expensive: { packages: [], bike: [cityElectric] }
+            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherLong]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         rainy: {
           none: {
-            cheap: { packages: [], bike: [cheaperHybrid] },
-            medium: { packages: [], bike: [hybrid] },
-            expensive: { packages: [], bike: [cityElectric] }
+            cheap: { packages: [[basic], [snowless]], bike: [cheaperHybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium], [snowless]], bike: [hybrid] },
+            expensive: { packages: [[basicPremium], [proBiker], [snowless]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         snow: {
           none: {
-            cheap: { packages: [], bike: [cheaperHybrid] },
-            medium: { packages: [], bike: [hybrid] },
-            expensive: { packages: [], bike: [cityElectric] }
+            cheap: { packages: [[basic], [snowless], [winter]], bike: [cheaperHybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium], [snowless], [winter]], bike: [hybrid] },
+            expensive: { packages: [[basicPremium], [proBiker], [snowless], [winter]], bike: [expensiveHybrid, cityElectric] }
           }
         }
       }
@@ -561,6 +568,9 @@
         return q1 === 'yes_bike'
       }
 
+      const isChildSelected = () => {
+        return q5 === 'yes_child'
+      }
 
       let packs = null
 
@@ -579,7 +589,7 @@
         return (<div> No selection !!!</div>)
       }      
 
-      const uniqueKey = q2 + q3 + q6 //create qunique key so react understands that it's a brand new set of items based on questions
+      const uniqueKey = q1 + q2 + q3 + q4 + q5 + q6 //create unique key so react understands that it's a brand new set of items based on questions
 
       const prods = packs.packages.map((item, index) => <Products key={uniqueKey + index} productKey={index} onChangePrice={onChangePrice} products={item} />)
       
@@ -588,9 +598,10 @@
       return (
 
         <div>
-          { prods}
-          <h3>Menopeli</h3>
-          { isBikeSelected() ? <Products productKey={uniqueKey + "bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
+          { prods}         
+          { isBikeSelected() ? <Products key={uniqueKey + "bike"} productKey={"bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
+          { isChildSelected() ? <Products key={uniqueKey + "seat"} productKey={"seat"} onChangePrice={onChangePrice} products={[juniorSeat, babySeat]}/> : <div></div>}
+          { isChildSelected() ? <Products key={uniqueKey + "carriage"} productKey={"carriage"} onChangePrice={onChangePrice} products={[childCarriage]}/> : <div></div>}
         </div>
 
       )

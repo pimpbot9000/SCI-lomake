@@ -155,7 +155,7 @@
 
       // question data
 
-      const question1 =  
+      const question1 =
       {
         title: "Tarvitsetko uuden pyörän?",
 
@@ -303,7 +303,7 @@
             expensive: { packages: [], bike: [] }
           }
         }
-      }    
+      }
 
 
 
@@ -377,9 +377,7 @@
 
       const updateMap = (key, value) => {
         const map = { ...priceMap, [key]: value }
-        setPriceMap(map)
-        console.log("MAIN, UPDATE MAP", map)
-        console.log("SUM", calculateSum(map))
+        setPriceMap(map)        
         setTotal(calculateSum(map))
       }
 
@@ -407,19 +405,17 @@
 
               <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
 
-              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
-              <br />
+              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />              
 
             </form>
-
-            <div>
-              <h2>Suosittelemme seuraavia tuotteita</h2>
-              <h3>Valitse haluamasi tuotteet</h3>
-              <hr />
-              <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} />
-            </div>
-
           </div>
+          <div className="container">
+            <h2>Suosittelemme seuraavia tuotteita</h2>
+            <h3>Valitse haluamasi tuotteet</h3>
+            <hr />
+            <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} />
+          </div>
+
         </div>
 
       )
@@ -444,10 +440,9 @@
 
       const options = items.map((item, index) =>
         <div key={index}>
-          {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked /> :
-            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
-          }
-          <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} />
+          {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked={true} /> :
+            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked={false}/>
+          }          
           <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
         </div>
       )
@@ -464,21 +459,6 @@
 
     }
 
-    const OptionsList = ({ items, onDelete }) => {
-
-      const options = items.map((item, index) =>
-        <div key={index}>
-          <input type="checkbox" className="form-check-input" id={'optional' + index} />
-          <label className="form-check-label" htmlFor={'optional' + index}> {item} </label>
-        </div>
-      )
-
-      return (
-        <div>
-          {options}
-        </div>
-      )
-    }
 
     const Products = ({ productKey, onChangePrice, products }) => {
 
@@ -498,8 +478,7 @@
 
       }
 
-      const productImages = products.map((item, index) => <ProductImage key={index} title={item.title} src={item.imgSrc} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)
-
+      const productImages = products.map((item, index) => <ProductImage key={index} title={item.title} src={item.imgSrc} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)      
 
       return (
         <div>
@@ -536,11 +515,15 @@
         imageStyle = imgStyle
       }
 
+      const leftMargin = {
+        marginLeft: '10px'
+      }
+
       return (
         <div>
-          <h3>{title}</h3>
+          <h3 style={leftMargin}>{title}</h3>
           <img onClick={() => handleSelect(id)} src={src} style={imageStyle} />
-          <h3>£{price}</h3>
+          <h3 style={leftMargin}>£{price}</h3>
         </div>
       )
     }
@@ -557,34 +540,39 @@
         updateMap(productKey, value)
       }
 
-     
+      const isBikeSelected = () => {
+        return q1 === 'yes_bike'
+      }
+
+
       let packs = null
 
-  
-      // ugly hack to see if all answeres andwered.
-      try {        
+      // ugly hacks to see if all questions are answered.
+      try {
         packs = answerTree[q2][q3][q6]
       } catch (error) {
         return (<div>No selection !!!</div>)
-      }      
-
-      if(packs === null || packs === undefined){
-        return (<div> No selection </div>)
-      }      
-
-      if(!("bike" in packs && "packages" in packs)){
-        return (<div> No selection </div>)
       }
 
-      console.log("PACKETS", packs)
-      
+      if (packs === null || packs === undefined) {
+        return (<div> No selection !!!</div>)
+      }
 
-      const prods = packs.packages.map((item, index) => <Products productKey={index} onChangePrice={onChangePrice} products={item} />)
+      if (!("bike" in packs && "packages" in packs)) {
+        return (<div> No selection !!!</div>)
+      }      
+
+
+      const prods = packs.packages.map((item, index) => <Products key={index} productKey={index} onChangePrice={onChangePrice} products={item} />)
+      
+      
 
       return (
 
         <div>
           { prods}
+          <h3>Menopeli</h3>
+          { isBikeSelected() ? <Products productKey={"bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
         </div>
 
       )

@@ -153,8 +153,9 @@
 
     const App = (props) => {
 
+      // question data
 
-      const question1 =  // tarvitsetko pyörän
+      const question1 =  
       {
         title: "Tarvitsetko uuden pyörän?",
 
@@ -271,70 +272,38 @@
       const basic = new Package("Peruspaketti", 399, "images/basic.PNG")
       const basicPlus = new Package("Peruspaketti Plus", 499, "images/basicPlus.PNG")
       const goodWeather = new Package("Hyvän sään paketti", 499, "images/goodWeather.PNG")
+      const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
+      const alreadyOwnsStuff = new Package("Jotain jo omistavan paketti", 300, "images/ownSomething.PNG")
 
-      const noBikeDict = {
-        dry: {
-          short: {
-            cheap: [],
-            medium: [[basic], [basicPlus, goodWeather]],
-            expensive: []
-          },
-          long: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        },
-        rainy: {
-          none: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        },
-        snow: {
-          none: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        }
-      }
-
-      const yesBikeDict = {
-        dry: {
-          short: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          },
-          long: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        },
-        rainy: {
-          none: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        },
-        snow: {
-          none: {
-            cheap: [],
-            medium: [],
-            expensive: []
-          }
-        }
-      }
 
       const answerTree = {
-        no_bike: noBikeDict,
-        yes_bike: yesBikeDict
-      }
-
+        dry: {
+          short: {
+            cheap: { packages: [], bike: [] },
+            medium: { packages: [[basic, basicPlus, alreadyOwnsStuff], [goodWeather]], bike: [cheaperHybrid] },
+            expensive: { packages: [], bike: [] }
+          },
+          long: {
+            cheap: { packages: [], bike: [] },
+            medium: { packages: [], bike: [] },
+            expensive: { packages: [], bike: [] }
+          }
+        },
+        rainy: {
+          none: {
+            cheap: { packages: [], bike: [] },
+            medium: { packages: [], bike: [] },
+            expensive: { packages: [], bike: [] }
+          }
+        },
+        snow: {
+          none: {
+            cheap: { packages: [], bike: [] },
+            medium: { packages: [], bike: [] },
+            expensive: { packages: [], bike: [] }
+          }
+        }
+      }    
 
 
 
@@ -588,30 +557,29 @@
         updateMap(productKey, value)
       }
 
-      let packets = null
+     
+      let packs = null
 
-      // just some ugly hacks to read the answer tree if all the selections are not made...
-      try {
-        packets = answerTree[q1][q2][q3][q6]       
-
+  
+      // ugly hack to see if all answeres andwered.
+      try {        
+        packs = answerTree[q2][q3][q6]
       } catch (error) {
-        return (<div>No selection</div>)
+        return (<div>No selection !!!</div>)
+      }      
+
+      if(packs === null || packs === undefined){
+        return (<div> No selection </div>)
+      }      
+
+      if(!("bike" in packs && "packages" in packs)){
+        return (<div> No selection </div>)
       }
 
-      if (!Array.isArray(packets)) {
-        return (<div>No selection</div>)
-      }
+      console.log("PACKETS", packs)
+      
 
-      if (packets.length === 0) {
-        return (<div>No selection</div>)
-      }
-
-
-
-      console.log("PACKETS", packets)
-      console.log(packets[0].title)
-
-      const prods = packets.map((item, index) => <Products productKey={index} onChangePrice={onChangePrice} products={item} />)
+      const prods = packs.packages.map((item, index) => <Products productKey={index} onChangePrice={onChangePrice} products={item} />)
 
       return (
 

@@ -111,6 +111,8 @@
 
     .container {
       padding-top: 120px !important;
+      margin: 0 auto;
+      width: 1000px;
     }
   </style>
 </head>
@@ -269,38 +271,47 @@
         ]
       }
 
-      const basic = new Package("Peruspaketti", 399, "images/basic.PNG")
-      const basicPlus = new Package("Peruspaketti Plus", 499, "images/basicPlus.PNG")
-      const goodWeather = new Package("Hyvän sään paketti", 499, "images/goodWeather.PNG")
+      // packages
+      const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
+      const basicPremium = new Package("Peruspaketti Plus", 150, "images/basicPlus.PNG")
+      
+      const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG")
+      const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG")
+      const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG")
+      const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG")
+      const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 999, "images/good_weather_short.PNG")
+      // bikes
       const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
-      const alreadyOwnsStuff = new Package("Jotain jo omistavan paketti", 300, "images/ownSomething.PNG")
+      const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png")
+      const citybike = new Package("City-pyörä", 350, "images/citybike.png")
+      const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png")
 
 
       const answerTree = {
         dry: {
           short: {
-            cheap: { packages: [], bike: [] },
-            medium: { packages: [[basic, basicPlus, alreadyOwnsStuff], [goodWeather]], bike: [cheaperHybrid] },
-            expensive: { packages: [], bike: [] }
+            cheap: { packages: [[basic]], bike: [citybike] },
+            medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherShort]], bike: [cheaperHybrid] },
+            expensive: { packages: [[basic, basicPremium]], bike: [hybrid, cityElectric] }
           },
           long: {
-            cheap: { packages: [], bike: [] },
-            medium: { packages: [], bike: [] },
-            expensive: { packages: [], bike: [] }
+            cheap: { packages: [[basic]], bike: [cheaperHybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherLong]], bike: [hybrid] },
+            expensive: { packages: [], bike: [cityElectric] }
           }
         },
         rainy: {
           none: {
-            cheap: { packages: [], bike: [] },
-            medium: { packages: [], bike: [] },
-            expensive: { packages: [], bike: [] }
+            cheap: { packages: [], bike: [cheaperHybrid] },
+            medium: { packages: [], bike: [hybrid] },
+            expensive: { packages: [], bike: [cityElectric] }
           }
         },
         snow: {
           none: {
-            cheap: { packages: [], bike: [] },
-            medium: { packages: [], bike: [] },
-            expensive: { packages: [], bike: [] }
+            cheap: { packages: [], bike: [cheaperHybrid] },
+            medium: { packages: [], bike: [hybrid] },
+            expensive: { packages: [], bike: [cityElectric] }
           }
         }
       }
@@ -381,6 +392,11 @@
         setTotal(calculateSum(map))
       }
 
+      const resetMap = () => {
+        setPriceMap({})
+        setTotal(calculateSum({}))
+      }
+
       return (
         <div>
           <nav className="navbar navbar-light bg-light fixed-top">
@@ -409,11 +425,11 @@
 
             </form>
           </div>
-          <div className="container">
+          <div className="container-fluid">
             <h2>Suosittelemme seuraavia tuotteita</h2>
             <h3>Valitse haluamasi tuotteet</h3>
             <hr />
-            <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} />
+            <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} resetMap={resetMap}/>
           </div>
 
         </div>
@@ -462,8 +478,8 @@
 
     const Products = ({ productKey, onChangePrice, products }) => {
 
-
-      const [selected, setSelected] = React.useState(-1)
+      
+      const [selected, setSelected] = React.useState(-1)      
 
       const handleSelect = (id) => {
 
@@ -495,14 +511,14 @@
     const ProductImage = ({ id, title, src, selected, handleSelect, price }) => {
 
       const imgStyleSelected = {
-        maxHeight: '300px',
+        maxHeight: '450px',
         padding: '10px',
         backgroundColor: '#44bcd8',
         margin: '10px 10px 10px 0px'
       };
 
       const imgStyle = {
-        maxHeight: '300px',
+        maxHeight: '400px',
         padding: '10px',
         margin: '10px 10px 10px 0px'
       };
@@ -532,9 +548,10 @@
     /**
     * Shows the result
     */
-    const Result = ({ isVisible, q1, q2, q3, q4, q5, q6, updateMap, answerTree }) => {
+    const Result = ({ isVisible, q1, q2, q3, q4, q5, q6, updateMap, answerTree, resetMap }) => {
 
-      React.useEffect(() => console.log("calculate intial total price"), [])
+      React.useEffect(() => resetMap, 
+      [q1, q2, q3, q4, q5, q6])
 
       const onChangePrice = (productKey, value) => {
         updateMap(productKey, value)
@@ -562,8 +579,9 @@
         return (<div> No selection !!!</div>)
       }      
 
+      const uniqueKey = q2 + q3 + q6 //create qunique key so react understands that it's a brand new set of items based on questions
 
-      const prods = packs.packages.map((item, index) => <Products key={index} productKey={index} onChangePrice={onChangePrice} products={item} />)
+      const prods = packs.packages.map((item, index) => <Products key={uniqueKey + index} productKey={index} onChangePrice={onChangePrice} products={item} />)
       
       
 
@@ -572,7 +590,7 @@
         <div>
           { prods}
           <h3>Menopeli</h3>
-          { isBikeSelected() ? <Products productKey={"bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
+          { isBikeSelected() ? <Products productKey={uniqueKey + "bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
         </div>
 
       )
@@ -626,124 +644,7 @@
     //render
     const domContainer = document.querySelector('#questions');
     ReactDOM.render(<App />, domContainer);
-
-    /** full dict!
-    const noBikeDict = {
-          dry: {
-            short: {
-              yes_cargo: {
-                yes_child: {
-                  cheap: "peruspaketti, hyvän sään pyöräilijän paketti + lasten kuljetus + city bike",
-                  medium: "peruspaketti, peruspaketti plus, jotain jo omistavan paketti, hyvänsään pyörälijän paketti + lasten kuljetus + edullisempi hybridi",
-                  expensive: "peruspaketti plys"
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              },
-              no_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              }
-
-            },
-            long: {
-              yes_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              },
-              no_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              }
-
-            }
-          },
-          rainy: {
-            none: {
-              yes_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              },
-              no_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              }
-
-            }
-          },
-          snow: {
-            none: {
-              yes_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                  }
-              },
-              no_cargo: {
-                yes_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                },
-                no_child: {
-                  cheap: {},
-                  medium: {},
-                  expensive: {}
-                }
-              }
-            }
-          }
-
-        }*/
+ 
   </script>
 
 

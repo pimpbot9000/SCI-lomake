@@ -301,26 +301,26 @@
         dry: {
           short: {
             cheap: { packages: [[basic], [goodWeatherShort]], bike: [citybike] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [goodWeatherShort, goodWeatherShortPro]], bike: [cheaperHybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [goodWeatherShort, goodWeatherShortPro]], bike: [cheaperHybrid, hybrid] },
             expensive: { packages: [[basicPremium], [proBiker], [goodWeatherShortPro]], bike: [expensiveHybrid, cityElectric] }
           },
           long: {
             cheap: { packages: [[basicPlus], [goodWeatherLong]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [goodWeatherLong]], bike: [hybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [goodWeatherLong]], bike: [hybrid, expensiveHybrid, cityElectric] },
             expensive: { packages: [[basicPremium], [proBiker], [goodWeatherLong]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         rainy: {
           none: {
             cheap: { packages: [[basic, basicPlus], [snowless]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless]], bike: [hybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless]], bike: [hybrid, expensiveHybrid, cityElectric] },
             expensive: { packages: [[basicPremium], [proBiker], [snowless]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         snow: {
           none: {
             cheap: { packages: [[basic], [snowless], [winter]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless], [winter]], bike: [hybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless], [winter]], bike: [hybrid, expensiveHybrid, cityElectric] },
             expensive: { packages: [[basicPremium], [proBiker], [snowless], [winter]], bike: [expensiveHybrid, cityElectric] }
           }
         }

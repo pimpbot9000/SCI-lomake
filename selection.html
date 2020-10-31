@@ -151,8 +151,9 @@
     }
 
     // packages
-    const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
+      const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
       const basicPremium = new Package("Peruspaketti Plus", 150, "images/basicPlus.PNG")
+      const basicPremiumPlus = new Package("Peruspaketti Plus", 230, "images/basicPlusPlus.PNG")
       
       const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG")
       const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG")
@@ -161,6 +162,7 @@
       const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 70, "images/good_weather_short.PNG")
       
       const proBiker = new Package("Pro-pyöräilijän paketti", 340, "images/proBiker.png")
+      const goodWeatherShortPro = new Package("Hyvän sään paketti", 130, "images/goodWeatherSportPremium.PNG")
 
       // bikes
       const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
@@ -298,19 +300,19 @@
         dry: {
           short: {
             cheap: { packages: [[basic], [goodWeatherShort]], bike: [citybike] },
-            medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherShort]], bike: [cheaperHybrid] },
-            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherShort]], bike: [expensiveHybrid, cityElectric] }
+            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [goodWeatherShort, goodWeatherShortPro]], bike: [cheaperHybrid] },
+            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherShortPro]], bike: [expensiveHybrid, cityElectric] }
           },
           long: {
             cheap: { packages: [[basic], [goodWeatherLong]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPremium], [goodWeatherLong]], bike: [hybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [goodWeatherLong]], bike: [hybrid] },
             expensive: { packages: [[basicPremium], [proBiker], [goodWeatherLong]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         rainy: {
           none: {
             cheap: { packages: [[basic], [snowless]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPremium], [snowless]], bike: [hybrid] },
+            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [snowless]], bike: [hybrid] },
             expensive: { packages: [[basicPremium], [proBiker], [snowless]], bike: [expensiveHybrid, cityElectric] }
           }
         },

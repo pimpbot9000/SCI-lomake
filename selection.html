@@ -7,6 +7,7 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap" rel="stylesheet">
   <style>
     #footer {
       position: fixed;
@@ -15,11 +16,11 @@
     }
 
     body {
-      font-family: sans-serif;
+      font-family: 'PT Sans', sans-serif;
       font-weight: normal;
       margin: 10px;
       color: #444;
-      background-color: #eee;
+      background-color: #ddd;
     }
 
     .customRadioDiv {
@@ -29,10 +30,24 @@
 
     }
 
+    .product {
+      padding: 5px;
+      margin: 5px;
+      border: 1px;
+      background-color: #eee;
+      -webkit-box-shadow: 2px 2px 2px 2px #ccc;
+      /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+      -moz-box-shadow: 3px 3px 5px 6px #ccc;
+      /* Firefox 3.5 - 3.6 */
+      box-shadow: 2px 3px 2px 2px #ccc;
+      /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+    }
+
     .customRadioLabel {
       width: 400px;
       border-radius: 3px;
-      border: 1px solid #D1D3D4
+      margin: 0 0 0 0;
+      border: 1px solid #999;
     }
 
     .radio {
@@ -109,10 +124,28 @@
       margin: 0px;
     }
 
-    .container {
+    .container-fluid {
       padding-top: 120px !important;
-      margin: 0 auto;
-      width: 1000px;
+    }
+
+    .container {
+      margin-top: 60px;
+      background-color: #eee;
+
+    }
+
+    input[type=checkbox] {
+      /* Double-sized Checkboxes */
+      -ms-transform: scale(2);
+      /* IE */
+      -moz-transform: scale(2);
+      /* FF */
+      -webkit-transform: scale(2);
+      /* Safari and Chrome */
+      -o-transform: scale(2);
+      /* Opera */
+      transform: scale(2);
+      padding: 10px;
     }
   </style>
 </head>
@@ -143,6 +176,15 @@
     'use strict';
 
     class Package {
+      constructor(title, price, imgScr, stuff) {
+        this.title = title;
+        this.price = price;
+        this.imgSrc = imgScr
+        this.stuff = stuff
+      }
+    }
+
+    class Product {
       constructor(title, price, imgScr) {
         this.title = title;
         this.price = price;
@@ -150,32 +192,36 @@
       }
     }
 
+    const product1 = new Product("Tuote1", 13, null)
+    const product2 = new Product("Tuote2", 23, null)
+    const product3 = new Product("Tuote3", 60, null)
+
     // packages
-      const basic = new Package("Peruspaketti", 112, "images/basic.PNG")
-      const basicPlus = new Package("Peruspaketti+", 192, "images/basicP.PNG")
-      const basicPremium = new Package("Peruspaketti Premium", 150, "images/basicPlus.PNG")
-      const basicPremiumPlus = new Package("Peruspaketti Premium Plus", 230, "images/basicPlusPlus.PNG")
-      
-      const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG")
-      const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG")
-      const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG")
-      const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG")
-      const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 70, "images/good_weather_short.PNG")
-      
-      const proBiker = new Package("Pro-pyöräilijän paketti", 340, "images/proBiker.png")
-      const goodWeatherShortPro = new Package("Hyvän sään paketti", 130, "images/goodWeatherSportPremium.PNG")
+    const basic = new Package("Peruspaketti", 112, "images/basic.PNG", [product1, product2])
+    const basicPlus = new Package("Peruspaketti+", 192, "images/basicP.PNG", [product1, product2])
+    const basicPremium = new Package("Peruspaketti Premium", 150, "images/basicPlus.PNG", [product1, product2])
+    const basicPremiumPlus = new Package("Peruspaketti Premium Plus", 230, "images/basicPlusPlus.PNG", [product1, product2, product3])
 
-      // bikes
-      const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
-      const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png")
-      const expensiveHybrid = new Package("Hybridi", 900, "images/expensiveHybrid.PNG")
-      const citybike = new Package("City-pyörä", 350, "images/citybike.png")
-      const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png")
+    const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG", [product1, product2, product3])
+    const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG", [product1, product2, product3])
+    const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG", [product1, product2, product3])
+    const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG", [product1, product2, product3])
+    const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 70, "images/good_weather_short.PNG", [product1, product2, product3])
 
-      //seats
-      const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG")
-      const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG") 
-      const babySeat = new Package("Lastenistuin", 100, "images/babySeat.PNG")
+    const proBiker = new Package("Pro-pyöräilijän paketti", 340, "images/proBiker.png", [product1, product2, product3])
+    const goodWeatherShortPro = new Package("Hyvän sään paketti", 130, "images/goodWeatherSportPremium.PNG", [product1, product2, product3])
+
+    // bikes
+    const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png", [product1, product2, product3])
+    const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png", [product1, product2, product3])
+    const expensiveHybrid = new Package("Hybridi", 900, "images/expensiveHybrid.PNG", [product1, product2, product3])
+    const citybike = new Package("City-pyörä", 350, "images/citybike.png", [product1, product2, product3])
+    const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png", [product1, product2, product3])
+
+    //seats
+    const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG", [product1, product2, product3])
+    const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG", [product1, product2, product3])
+    const babySeat = new Package("Lastenistuin", 100, "images/babySeat.PNG", [product1, product2, product3])
 
     const App = (props) => {
 
@@ -295,7 +341,7 @@
         ]
       }
 
-      
+
 
       const answerTree = {
         dry: {
@@ -340,8 +386,11 @@
       const [total, setTotal] = React.useState(0)
       const [priceMap, setPriceMap] = React.useState({})
 
-      const selectRef = React.createRef()
-      //const regularBicycleSelectRef = React.createRef()
+      const questionRef = React.createRef()
+
+      const selectionRef = React.createRef()
+
+      const finalSelectionRef = React.createRef()
 
 
       const handleQ1Change = (event) => {
@@ -355,10 +404,10 @@
         console.log("Q2", value)
 
         if (value == "dry") {
-          selectRef.current.show()
+          questionRef.current.show()
         } else {
           setQ3Value("none")
-          selectRef.current.hide()
+          questionRef.current.hide()
 
         }
         setQ2Value(value)
@@ -398,7 +447,8 @@
 
       const updateMap = (key, value) => {
         const map = { ...priceMap, [key]: value }
-        setPriceMap(map)        
+        console.log(map)
+        setPriceMap(map)
         setTotal(calculateSum(map))
       }
 
@@ -407,76 +457,210 @@
         setTotal(calculateSum({}))
       }
 
+      // package selection doneded
+      const onReady = () => {
+        console.log("ready", priceMap)
+        selectionRef.current.hide()
+        finalSelectionRef.current.show()
+        finalSelectionRef.current.setProductsMap(priceMap)
+      }
+
+      const onChangeTotalPrice = (total) => {
+        setTotal(total)
+      }
+
       return (
         <div>
           <nav className="navbar navbar-light bg-light fixed-top">
-            <span className="navbar-brand mb-0">£{total}</span>
+            <span className="navbar-brand mb-0">Hinta: {total} €</span>
           </nav>
 
+          <Togglable ref={selectionRef} initialVisible={true}>
 
+            <div className="container-fluid">
+
+              <div className="row">
+                <div className="col-3 cell">
+                  <h1>Työmatkapyöräilijän paketti</h1>
+                  <br />
+                  <form onSubmit={handleSubmit}>
+
+                    <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
+
+                    <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
+
+                    <Togglable ref={questionRef} initialVisible={false}>
+                      <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
+                    </Togglable>
+
+                    <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
+
+                    <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
+
+                    <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
+
+                  </form>
+                </div>
+
+                <div className="col-9 cell">
+                  <h2>Suosittelemme seuraavia tuotteita</h2>
+                  <h3>Valitse haluamasi tuotteet</h3>
+                  <hr />
+                  <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} resetMap={resetMap} onReady={onReady} />
+                </div>
+              </div>
+            </div>
+
+          </Togglable>
           <div className="container">
-            <h1>Työmatkapyöräilijän paketti</h1>
-            <br />
-            <form onSubmit={handleSubmit}>
 
-              <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
+            <FinalSelection ref={finalSelectionRef} onChangeTotalPrice={onChangeTotalPrice} />
 
-              <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
-
-              <Togglable ref={selectRef}>
-                <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
-              </Togglable>
-
-              <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
-
-              <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
-
-              <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />              
-
-            </form>
-          </div>
-          <div className="container-fluid">
-            <h2>Suosittelemme seuraavia tuotteita</h2>
-            <h3>Valitse haluamasi tuotteet</h3>
-            <hr />
-            <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} resetMap={resetMap}/>
           </div>
 
         </div>
 
+
+
       )
     }
 
-    const TotalPrice = ({ priceMap }) => {
+    const FinalSelection = React.forwardRef((props, ref) => {
 
-      const handleClick = () => {
-        console.log(priceMap)
+      const [products, setProducts] = React.useState([])
+      const [selected, setSelected] = React.useState([])
+      const toggleRef = React.createRef()
+
+      const toggleVisibility = () => {
+        toggleRef.current.toggleVisibility()
       }
+
+      const show = () => {
+        toggleRef.current.show()
+      }
+
+      const hide = () => {
+        toggleRef.current.show()
+      }
+
+      const setProductsMap = (productsMap) => {
+        console.log("products!!!", productsMap)
+
+        let packagesArr = []
+
+        Object.keys(productsMap).forEach(key => packagesArr = packagesArr.concat(productsMap[key]))
+
+        let productsArr = []
+
+        packagesArr.forEach(item => productsArr = productsArr.concat(item.stuff))
+        setProducts(productsArr)
+        setSelected(Array(productsArr.length).fill(true))
+        window.scrollTo(0, 0)
+
+      }
+
+      React.useImperativeHandle(ref, () => {
+        return {
+          toggleVisibility,
+          show,
+          hide,
+          setProductsMap
+        }
+      })
+
+      const onChange = (id) => {
+        const newSelected = [...selected]
+        if (newSelected[id]) {
+          newSelected[id] = false
+        } else {
+          newSelected[id] = true
+        }
+        setSelected(newSelected)
+        console.log(newSelected)
+
+        
+        const sum = newSelected.map((item, index) => {
+          if (item) {
+             return products[index].price
+          } else return 0
+        }).reduce( (prev, current) => prev + current, 0)
+
+        props.onChangeTotalPrice(sum)
+      }
+
+      const productListItems = products.map((item, index) => <ProductItem key={index} id={index} product={item} onChange={onChange} />)
+
+
+      return (
+        <div>
+          <Togglable ref={toggleRef} initialVisible={false}>
+
+            <div className="container">
+              <h3>Tuotteet</h3>
+              {productListItems}
+            </div>            
+            <div style={{minHeight: '600px'}}>
+              <h2> Valitse toimitustapa jne jne </h2>
+              <p> lorem impsum ja sitä rataa </p>
+            </div>
+          </Togglable>
+         
+        </div>
+      )
+    }
+    )
+
+    const ProductItem = ({ id, product, onChange }) => {
+
+      let imageStyle = {}
+
+
+      const leftMargin = {
+        marginLeft: '10px'
+      }
+
+      return (
+        <div className="row">
+          <div className="col-12 cell" style={{ borderStyle: 'solid', marginBottom: '10px' }}>
+            <div style={{marginTop: '5px'}}>
+            <p><input type="checkbox" defaultChecked={true} style={{marginRight: '10px'}} onChange={() => onChange(id)} /> {product.title}  </p>
+            <p>{product.price} €</p>
+            <p>{product.title}</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+
+
+    const CustomButton = ({ title, handleClick }) => {
 
       const style = {
-        position: 'fixed',
-        right: '100px',
-        bottom: '100px',
+        fontSize: "40px"
+
       }
 
-      return (<button style={style} onClick={handleClick}>Update Price</button>)
+      return (<button className="btn btn-primary" style={style} onClick={handleClick}>{title}</button>)
     }
 
     const SelectableRadio = ({ items, onChange, value, id, title }) => {
 
+      const style = {
+        marginTop: '15px'
+      }
       const options = items.map((item, index) =>
         <div key={index}>
           {value === item.value ? <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked={true} /> :
-            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked={false}/>
-          }          
-          <label className="customRadioLabel" htmlFor={id + "_" + index}>{item.text}</label>
+            <input type="radio" name={"radio" + id} id={id + "_" + index} className="radio" value={item.value} onChange={onChange} checked={false} />
+          }
+          <label className="customRadioLabel" style={style} htmlFor={id + "_" + index}>{item.text}</label>
         </div>
       )
 
       return (
         <div className="form-group">
           <div className="customRadioDiv">
-
             <h3>{title}</h3>
             {options}
           </div>
@@ -485,29 +669,46 @@
 
     }
 
+    // onChangeSelected products arg: Array
+    const Products = ({ categoryKey, onChangeSelectedProducts, products }) => {
 
-    const Products = ({ productKey, onChangePrice, products }) => {
 
-      
-      const [selected, setSelected] = React.useState(-1)      
+      const [selected, setSelected] = React.useState(Array(products.length).fill(false))
+
 
       const handleSelect = (id) => {
 
-        if (selected === id) {
-          setSelected(-1)
-          onChangePrice(productKey, 0)
+        const newSelected = [...selected]
+
+        console.log("bvefore", selected)
+        if (newSelected[id] === true) {
+          newSelected[id] = false
         } else {
-          setSelected(id)
-          onChangePrice(productKey, products[id].price)
+          newSelected[id] = true
         }
 
+        console.log("after", newSelected)
+        setSelected(newSelected)
 
+
+        //set selected products
+        const selectedProducts = new Array()
+
+        products.forEach((item, index) => {
+          if (newSelected[index]) {
+            selectedProducts.push(item)
+          }
+        })
+
+        onChangeSelectedProducts(categoryKey, selectedProducts)
       }
 
-      const productImages = products.map((item, index) => <ProductImage key={index} title={item.title} src={item.imgSrc} price={item.price} id={index} handleSelect={handleSelect} selected={selected} />)      
+
+      const productImages = products.map((item, index) => <ProductImage key={index} title={item.title} src={item.imgSrc} price={item.price} id={index} handleSelect={handleSelect} selected={selected[index]} />)
 
       return (
         <div>
+          <h1> Valitse jokin seuraavista: </h1>
           <div className="row">
             {productImages}
           </div>
@@ -516,12 +717,12 @@
     }
 
     /**
-    * Selectable product (image)
+    * Selectable productPackage (image)
     */
     const ProductImage = ({ id, title, src, selected, handleSelect, price }) => {
 
       const imgStyleSelected = {
-        maxHeight: '450px',
+        maxHeight: '400px',
         padding: '10px',
         backgroundColor: '#44bcd8',
         margin: '10px 10px 10px 0px'
@@ -535,7 +736,7 @@
 
       let imageStyle = {}
 
-      if (selected == id) {
+      if (selected) {
         imageStyle = imgStyleSelected
       } else {
         imageStyle = imgStyle
@@ -546,10 +747,11 @@
       }
 
       return (
-        <div>
+        <div className="product">
           <h3 style={leftMargin}>{title}</h3>
+          <h3 style={leftMargin}>{price} €</h3>
           <img onClick={() => handleSelect(id)} src={src} style={imageStyle} />
-          <h3 style={leftMargin}>£{price}</h3>
+
         </div>
       )
     }
@@ -558,13 +760,13 @@
     /**
     * Shows the result
     */
-    const Result = ({ isVisible, q1, q2, q3, q4, q5, q6, updateMap, answerTree, resetMap }) => {
+    const Result = ({ isVisible, q1, q2, q3, q4, q5, q6, updateMap, answerTree, resetMap, onReady }) => {
 
-      React.useEffect(() => resetMap, 
-      [q1, q2, q3, q4, q5, q6])
+      React.useEffect(() => resetMap, [q1, q2, q3, q4, q5, q6])
 
-      const onChangePrice = (productKey, value) => {
-        updateMap(productKey, value)
+      const onChangeSelectedProducts = (categoryKey, selectedProducts) => {
+        updateMap(categoryKey, selectedProducts)
+        console.log(categoryKey, selectedProducts)
       }
 
       const isBikeSelected = () => {
@@ -590,21 +792,23 @@
 
       if (!("bike" in packs && "packages" in packs)) {
         return (<div> No selection !!!</div>)
-      }      
+      }
 
       const uniqueKey = q1 + q2 + q3 + q4 + q5 + q6 //create unique key so react understands that it's a brand new set of items based on questions
 
-      const prods = packs.packages.map((item, index) => <Products key={uniqueKey + index} productKey={index} onChangePrice={onChangePrice} products={item} />)
-      
-      
+      const prods = packs.packages.map((item, index) => <Products key={uniqueKey + index} categoryKey={index} onChangeSelectedProducts={onChangeSelectedProducts} products={item} />)
+
+
 
       return (
 
         <div>
-          { prods}         
-          { isBikeSelected() ? <Products key={uniqueKey + "bike"} productKey={"bike"} onChangePrice={onChangePrice} products={packs.bike}/> : <div></div> }
-          { isChildSelected() ? <Products key={uniqueKey + "seat"} productKey={"seat"} onChangePrice={onChangePrice} products={[juniorSeat, babySeat]}/> : <div></div>}
-          { isChildSelected() ? <Products key={uniqueKey + "carriage"} productKey={"carriage"} onChangePrice={onChangePrice} products={[childCarriage]}/> : <div></div>}
+          {prods}
+          {isBikeSelected() ? <Products key={uniqueKey + "bike"} categoryKey={"bike"} onChangeSelectedProducts={onChangeSelectedProducts} products={packs.bike} /> : <div></div>}
+          {isChildSelected() ? <Products key={uniqueKey + "seat"} categoryKey={"seat"} onChangeSelectedProducts={onChangeSelectedProducts} products={[juniorSeat, babySeat]} /> : <div></div>}
+          {isChildSelected() ? <Products key={uniqueKey + "carriage"} categoryKey={"carriage"} onChangeSelectedProducts={onChangeSelectedProducts} products={[childCarriage]} /> : <div></div>}
+          <br />
+          <CustomButton title="Nysvää paketit" handleClick={onReady} />
         </div>
 
       )
@@ -613,7 +817,13 @@
 
 
     const calculateSum = (m) => {
-      return Object.keys(m).map(key => m[key]).reduce((total, current) => total + current, 0)
+      return Object.keys(m).map(key => m[key]).reduce((total, currentProducts) => {
+
+        const currentPrice = currentProducts.reduce((sum, item) => item.price + sum, 0)
+
+        return (total + currentPrice)
+      },
+        0)
     }
 
 
@@ -621,7 +831,7 @@
     * Togglable component to show/hide content
     */
     const Togglable = React.forwardRef((props, ref) => {
-      const [visible, setVisible] = React.useState(false)
+      const [visible, setVisible] = React.useState(props.initialVisible)
 
       const hideWhenVisible = { display: visible ? 'none' : '' }
       const showWhenVisible = { display: visible ? '' : 'none' }
@@ -658,7 +868,7 @@
     //render
     const domContainer = document.querySelector('#questions');
     ReactDOM.render(<App />, domContainer);
- 
+
   </script>
 
 

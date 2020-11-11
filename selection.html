@@ -53,36 +53,97 @@
       }
     }
 
-    const product1 = new Product("Tuote1", 13, null)
-    const product2 = new Product("Tuote2", 23, null)
-    const product3 = new Product("Tuote3", 60, null)
+    const product = new Product("tyhjä", 0, null)
+    
+    // Pyörän varustepaketti 
+    const tarakka_tavis = new Product("Tavarateline", 80, null)
+    const etutakavalo = new Product("Ladattava led etu- ja takavalo", 15, null)
+    const lukko = new Product("U-lukko", 40, null)
+    const soittokello_tavis = new Product("Soittokello", 5, null)
+    
+    // Citypyöräilijän varustepaketti
+    const tarakka_city = new Product("Tavarateline", 45, null)
+    const etuvalo = new Product("Etuvalo", 15, null)
+    const takavalo = new Product("Takavalo", 14, null)
+    const soittokello_city = new Product("Soittokello", 7.5, null)
+
+    // Pyöränhuoltopaketti
+    const tyokalu = new Product("Työkalu", 20, null)
+    const paikkaussetti = new Product("Paikkaussetti", 5, null)
+    const ketjuoljy = new Product("Ketjuöljy", 12, null)
+    const pumppu = new Product("Jalkapumppu mittarilla", 50, null)
+
+    // Citypyöräilijän paketti
+    const sadeviitta = new Product("Sadeviitta", 40, null)
+    const kori = new Product("Kori", 75, null)
+    const kypara_city = new Product("Pyöräilykypärä", 70, null)
+    const pyoralaukku_city = new Product("City-pyörälaukku", 150, null)
+
+    // Pidemmän matkan työmatkapyöräilijän varustepaketti
+    const pyoralaukku_pitka = new Product("Pyörän sivulaukut", 90, null)
+    const kypara_pitka = new Product("Pyöräilykypärä", 60, null)
+    const polkimet = new Product("Kombipolkimet", 40, null)
+    const kengat = new Product("Pyöräilykengät", 90, null)
+    const kynsikkaat = new Product("Pyöräilykynsikkäät", 30, null)
+    const lasit = new Product("Pyöräilylasit", 30, null)
+
+    // Pidemmän matkan työmatkapyöräilijän vaatepaketti
+    const takki = new Product("Pyöräilytakki", 100, null)
+    const housut = new Product("Pyöräilyhousut", 100, null)
+
+    // Sadesään paketti
+    const hanskat_sade = new Product("Vedenpitävät hanskat", 30, null)
+    const kenkasuoja_sade = new Product("Kenkien sadesuoja", 25, null)
+    const satulasuoja = new Product("Satulan sadesuoja", 10, null)
+    const kyparasuoja = new Product("Kypärän sadesuoja", 15, null)
+    const sadevaatteet = new Product("Sadetakki ja -housut pyöräilyyn", 100, null)
+
+    // Syyssään paketti
+    const pipo = new Product("Tuulenpitävä pipo", 20, null)
+    const hanskat_syys = new Product("Lämpimät hanskat", 50, null)
+    const heijastinliivi = new Product("Heijastinliivi", 10, null)
+
+    // Pakkassään paketti
+    const kenkasuoja_talvi = new Product("Lämpimät kengänpäälliset", 50, null)
+    const hanskat_talvi = new Product("Talvipyöräilyhanskat", 80, null)
+    const kyparamyssy = new Product("Kypärämyssy", 20, null)
+    const kerrasto = new Product("Merinovillakerrasto", 80, null)
+    const nastarenkaat = new Product("Nastarenkaat", 30, null)
+
 
     // packages
-    const basic = new Package("Peruspaketti", 112, "images/basic.PNG", [product1, product2])
-    const basicPlus = new Package("Peruspaketti+", 192, "images/basicP.PNG", [product1, product2])
-    const basicPremium = new Package("Peruspaketti Premium", 150, "images/basicPlus.PNG", [product1, product2])
-    const basicPremiumPlus = new Package("Peruspaketti Premium Plus", 230, "images/basicPlusPlus.PNG", [product1, product2, product3])
-
-    const ownsStuff = new Package("Perusvälineiden omistajan paketti", 65, "images/owns_basic_stuff.PNG", [product1, product2, product3])
-    const snowless = new Package("Lumettoman kelin paketti", 247, "images/rain.PNG", [product1, product2, product3])
-    const winter = new Package("Talvipyöräilijän paketti", 150, "images/winter.PNG", [product1, product2, product3])
-    const goodWeatherLong = new Package("Hyvän sään pyöräilijän paketti", 330, "images/good_weather_long.PNG", [product1, product2, product3])
-    const goodWeatherShort = new Package("Hyvän sään pyöräilijän paketti", 70, "images/good_weather_short.PNG", [product1, product2, product3])
-
-    const proBiker = new Package("Pro-pyöräilijän paketti", 340, "images/proBiker.png", [product1, product2, product3])
-    const goodWeatherShortPro = new Package("Hyvän sään paketti", 130, "images/goodWeatherSportPremium.PNG", [product1, product2, product3])
-
+    const varustepaketti = new Package("Pyörän varustepaketti", 140, "images/varustepaketti.png", [tarakka_tavis, etutakavalo, lukko, soittokello_tavis])
+    const varustepakettiCity = new Package("Citypyöräilijän varustepaketti", 121.5, "images/varustepakettiCity.png", [tarakka_city, etuvalo, takavalo, lukko, soittokello_city])
+    const huoltopaketti = new Package("Pyöränhuoltopaketti", 87, "images/huoltopaketti.png", [tyokalu, paikkaussetti, ketjuoljy, pumppu])
+    const citypaketti1 = new Package("Citypyöräilijän paketti korilla", 185, "images/citypaketti1.png", [sadeviitta, kori, kypara_city])
+    const citypaketti2 = new Package("Citypyöräilijän paketti sivulaukulla", 260, "images/citypaketti2.png", [sadeviitta, pyoralaukku_city, kypara_city])
+    const pitkamatkavaruste = new Package("Pidemmän matkan työmatkapyöräilijän varustepaketti", 340, "images/basic.PNG", [pyoralaukku_pitka, kypara_pitka, polkimet, kengat, kynsikkaat, lasit])
+    const pitkamatkavaate = new Package("Pidemmän matkan työmatkapyöräilijän vaatepaketti", 200, "images/basic.PNG", [takki, housut])
+    const sadesaa = new Package("Sadesään paketti", 180, "images/basic.PNG", [hanskat_sade, kenkasuoja_sade, satulasuoja, kyparasuoja, sadevaatteet])
+    const syyssaa = new Package("Syyssään paketti", 80, "images/basic.PNG", [pipo, hanskat_syys, heijastinliivi])
+    const talvisaa = new Package("Talvisään paketti", 260, "images/basic.PNG", [kenkasuoja_talvi, hanskat_talvi, kyparamyssy, kerrasto, nastarenkaat])
+    
     // bikes
-    const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png", [product1, product2, product3])
-    const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png", [product1, product2, product3])
-    const expensiveHybrid = new Package("Hybridi", 900, "images/expensiveHybrid.PNG", [product1, product2, product3])
-    const citybike = new Package("City-pyörä", 350, "images/citybike.png", [product1, product2, product3])
-    const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png", [product1, product2, product3])
+    const cheaperHybrid_product = new Product("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
+    const hybrid_product = new Product("Hybridi", 500, "images/cheaperHybrid.png")
+    const expensiveHybrid_product = new Product("Hybridi", 900, "images/expensiveHybrid.PNG")
+    const citybike_product = new Product("City-pyörä", 350, "images/citybike.png")
+    const cityElectric_product = new Product("City-sähköpyörä", 2100, "images/cityelectric.png")
+
+    const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png", [cheaperHybrid_product])
+    const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png", [hybrid_product])
+    const expensiveHybrid = new Package("Hybridi", 900, "images/expensiveHybrid.PNG", [expensiveHybrid_product])
+    const citybike = new Package("City-pyörä", 350, "images/citybike.png", [citybike_product])
+    const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png", [cityElectric_product])
 
     //seats
-    const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG", [product1, product2, product3])
-    const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG", [product1, product2, product3])
-    const babySeat = new Package("Lastenistuin", 100, "images/babySeat.PNG", [product1, product2, product3])
+    const juniorSeat_product = new Product("Junior-istuin", 90, "images/juniorSeat.PNG")
+    const childCarriage_product = new Product("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG")
+    const babySeat_product = new Product("Lastenistuin", 100, "images/babySeat.PNG")
+
+    const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG", [juniorSeat_product])
+    const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG", [childCarriage_product])
+    const babySeat = new Package("Lastenistuin", 100, "images/babySeat.PNG", [babySeat_product])
 
     const App = (props) => {
 
@@ -133,7 +194,7 @@
       // optional question! shown if q2 = dry
       const question3 =
       {
-        title: "Pyöräiletkö vain lyhyitä kaupunkimatkoja (alle 8 km)?",
+        title: "Pyöräiletkö vain lyhyitä kaupunkimatkoja (alle 4 km)?",
 
         selections: [
           {
@@ -207,28 +268,28 @@
       const answerTree = {
         dry: {
           short: {
-            cheap: { packages: [[basic], [goodWeatherShort]], bike: [citybike] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [goodWeatherShort, goodWeatherShortPro]], bike: [cheaperHybrid, hybrid] },
-            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherShortPro]], bike: [expensiveHybrid, cityElectric] }
+            cheap: { packages: [[varustepakettiCity], [huoltopaketti], [citypaketti1]], bike: [citybike] },
+            medium: { packages: [[varustepakettiCity], [huoltopaketti], [citypaketti1, citypaketti2]], bike: [cheaperHybrid, hybrid] },
+            expensive: { packages: [[varustepakettiCity], [huoltopaketti], [citypaketti2]], bike: [expensiveHybrid, cityElectric] }
           },
           long: {
-            cheap: { packages: [[basicPlus], [goodWeatherLong]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPremium, basicPremiumPlus], [goodWeatherLong]], bike: [hybrid, expensiveHybrid, cityElectric] },
-            expensive: { packages: [[basicPremium], [proBiker], [goodWeatherLong]], bike: [expensiveHybrid, cityElectric] }
+            cheap: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste]], bike: [cheaperHybrid] },
+            medium: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste]], bike: [hybrid, expensiveHybrid, cityElectric] },
+            expensive: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         rainy: {
           none: {
-            cheap: { packages: [[basic, basicPlus], [snowless]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless]], bike: [hybrid, expensiveHybrid, cityElectric] },
-            expensive: { packages: [[basicPremium], [proBiker], [snowless]], bike: [expensiveHybrid, cityElectric] }
+            cheap: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa]], bike: [cheaperHybrid] },
+            medium: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa]], bike: [hybrid, expensiveHybrid, cityElectric] },
+            expensive: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa]], bike: [expensiveHybrid, cityElectric] }
           }
         },
         snow: {
           none: {
-            cheap: { packages: [[basic], [snowless], [winter]], bike: [cheaperHybrid] },
-            medium: { packages: [[ownsStuff, basic, basicPlus, basicPremium, basicPremiumPlus], [snowless], [winter]], bike: [hybrid, expensiveHybrid, cityElectric] },
-            expensive: { packages: [[basicPremium], [proBiker], [snowless], [winter]], bike: [expensiveHybrid, cityElectric] }
+            cheap: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [cheaperHybrid] },
+            medium: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [hybrid, expensiveHybrid, cityElectric] },
+            expensive: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [expensiveHybrid, cityElectric] }
           }
         }
       }
@@ -333,7 +394,7 @@
       return (
         <div>
           <nav className="navbar navbar-light bg-light fixed-top">
-            <span className="navbar-brand mb-0">Hinta: {total} €</span>
+            <span className="navbar-brand mb-0">Hinta: {total} € tai {(total / 12).toFixed(2)} €/kk </span>
           </nav>
 
           <Togglable ref={selectionRef} initialVisible={true}>

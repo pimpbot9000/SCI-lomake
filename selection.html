@@ -7,7 +7,7 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap" rel="stylesheet">
+    
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -38,77 +38,78 @@
 
     class Package {
       constructor(title, price, imgScr, stuff) {
-        this.title = title;
-        this.price = price;
+        this.title = title
+        this.price = price
         this.imgSrc = imgScr
         this.stuff = stuff
       }
     }
 
     class Product {
-      constructor(title, price, imgScr) {
-        this.title = title;
-        this.price = price;
+      constructor(title, price, imgScr, discount) {
+        this.title = title
+        this.price = price
         this.imgSrc = imgScr
+        this.discount = discount;
       }
     }
 
-    const product = new Product("tyhjä", 0, null)
-    
+    const product = new Product("tyhjä", 0, null, false)
+
     // Pyörän varustepaketti 
-    const tarakka_tavis = new Product("Tavarateline", 80, null)
-    const etutakavalo = new Product("Ladattava led etu- ja takavalo", 15, null)
-    const lukko = new Product("U-lukko", 40, null)
-    const soittokello_tavis = new Product("Soittokello", 5, null)
-    
+    const tarakka_tavis = new Product("Tavarateline", 80, null, false)
+    const etutakavalo = new Product("Ladattava led etu- ja takavalo", 15, null, false)
+    const lukko = new Product("U-lukko", 40, null, false)
+    const soittokello_tavis = new Product("Soittokello", 5, null, false)
+
     // Citypyöräilijän varustepaketti
-    const tarakka_city = new Product("Tavarateline", 45, null)
-    const etuvalo = new Product("Etuvalo", 15, null)
-    const takavalo = new Product("Takavalo", 14, null)
-    const soittokello_city = new Product("Soittokello", 7.5, null)
+    const tarakka_city = new Product("Tavarateline", 45, null, false)
+    const etuvalo = new Product("Etuvalo", 15, null, false)
+    const takavalo = new Product("Takavalo", 14, null, false)
+    const soittokello_city = new Product("Soittokello", 7.5, null, false)
 
     // Pyöränhuoltopaketti
-    const tyokalu = new Product("Työkalu", 20, null)
-    const paikkaussetti = new Product("Paikkaussetti", 5, null)
-    const ketjuoljy = new Product("Ketjuöljy", 12, null)
-    const pumppu = new Product("Jalkapumppu mittarilla", 50, null)
+    const tyokalu = new Product("Työkalu", 20, null, false)
+    const paikkaussetti = new Product("Paikkaussetti", 5, null, false)
+    const ketjuoljy = new Product("Ketjuöljy", 12, null, false)
+    const pumppu = new Product("Jalkapumppu mittarilla", 50, null, false)
 
     // Citypyöräilijän paketti
-    const sadeviitta = new Product("Sadeviitta", 40, null)
-    const kori = new Product("Kori", 75, null)
-    const kypara_city = new Product("Pyöräilykypärä", 70, null)
-    const pyoralaukku_city = new Product("City-pyörälaukku", 150, null)
+    const sadeviitta = new Product("Sadeviitta", 40, null, true)
+    const kori = new Product("Kori", 75, null, false)
+    const kypara_city = new Product("Pyöräilykypärä", 70, null, false)
+    const pyoralaukku_city = new Product("City-pyörälaukku", 150, null, true)
 
     // Pidemmän matkan työmatkapyöräilijän varustepaketti
-    const pyoralaukku_pitka = new Product("Pyörän sivulaukut", 90, null)
-    const kypara_pitka = new Product("Pyöräilykypärä", 60, null)
-    const polkimet = new Product("Kombipolkimet", 40, null)
-    const kengat = new Product("Pyöräilykengät", 90, null)
-    const kynsikkaat = new Product("Pyöräilykynsikkäät", 30, null)
-    const lasit = new Product("Pyöräilylasit", 30, null)
+    const pyoralaukku_pitka = new Product("Pyörän sivulaukut", 90, null, true)
+    const kypara_pitka = new Product("Pyöräilykypärä", 60, null, false)
+    const polkimet = new Product("Kombipolkimet", 40, null, true)
+    const kengat = new Product("Pyöräilykengät", 90, null, true)
+    const kynsikkaat = new Product("Pyöräilykynsikkäät", 30, null, false)
+    const lasit = new Product("Pyöräilylasit", 30, null, false)
 
     // Pidemmän matkan työmatkapyöräilijän vaatepaketti
-    const takki = new Product("Pyöräilytakki", 100, null)
-    const housut = new Product("Pyöräilyhousut", 100, null)
+    const takki = new Product("Pyöräilytakki", 100, null, false)
+    const housut = new Product("Pyöräilyhousut", 100, null, false)
 
     // Sadesään paketti
-    const hanskat_sade = new Product("Vedenpitävät hanskat", 30, null)
-    const kenkasuoja_sade = new Product("Kenkien sadesuoja", 25, null)
-    const satulasuoja = new Product("Satulan sadesuoja", 10, null)
-    const kyparasuoja = new Product("Kypärän sadesuoja", 15, null)
-    const sadevaatteet = new Product("Sadetakki ja -housut pyöräilyyn", 100, null)
+    const hanskat_sade = new Product("Vedenpitävät hanskat", 30, null, false)
+    const kenkasuoja_sade = new Product("Kenkien sadesuoja", 25, null, false)
+    const satulasuoja = new Product("Satulan sadesuoja", 10, null, false)
+    const kyparasuoja = new Product("Kypärän sadesuoja", 15, null, false)
+    const sadevaatteet = new Product("Sadetakki ja -housut pyöräilyyn", 100, null, false)
 
     // Syyssään paketti
-    const pipo = new Product("Tuulenpitävä pipo", 20, null)
-    const hanskat_syys = new Product("Lämpimät hanskat", 50, null)
-    const heijastinliivi = new Product("Heijastinliivi", 10, null)
+    const pipo = new Product("Tuulenpitävä pipo", 20, null, false)
+    const hanskat_syys = new Product("Lämpimät hanskat", 50, null, true)
+    const heijastinliivi = new Product("Heijastinliivi", 10, null, false)
 
     // Pakkassään paketti
-    const kenkasuoja_talvi = new Product("Lämpimät kengänpäälliset", 50, null)
-    const hanskat_talvi = new Product("Talvipyöräilyhanskat", 80, null)
-    const kyparamyssy = new Product("Kypärämyssy", 20, null)
-    const kerrasto = new Product("Merinovillakerrasto", 80, null)
-    const nastarenkaat = new Product("Nastarenkaat", 30, null)
+    const kenkasuoja_talvi = new Product("Lämpimät kengänpäälliset", 50, null, false)
+    const hanskat_talvi = new Product("Talvipyöräilyhanskat", 80, null, false)
+    const kyparamyssy = new Product("Kypärämyssy", 20, null, false)
+    const kerrasto = new Product("Merinovillakerrasto", 80, null, false)
+    const nastarenkaat = new Product("Nastarenkaat", 30, null, false)
 
 
     // packages
@@ -117,18 +118,18 @@
     const huoltopaketti = new Package("Pyöränhuoltopaketti", 87, "images/huoltopaketti.png", [tyokalu, paikkaussetti, ketjuoljy, pumppu])
     const citypaketti1 = new Package("Citypyöräilijän paketti korilla", 185, "images/citypaketti1.png", [sadeviitta, kori, kypara_city])
     const citypaketti2 = new Package("Citypyöräilijän paketti sivulaukulla", 260, "images/citypaketti2.png", [sadeviitta, pyoralaukku_city, kypara_city])
-    const pitkamatkavaruste = new Package("Pidemmän matkan työmatkapyöräilijän varustepaketti", 340, "images/basic.PNG", [pyoralaukku_pitka, kypara_pitka, polkimet, kengat, kynsikkaat, lasit])
-    const pitkamatkavaate = new Package("Pidemmän matkan työmatkapyöräilijän vaatepaketti", 200, "images/basic.PNG", [takki, housut])
-    const sadesaa = new Package("Sadesään paketti", 180, "images/basic.PNG", [hanskat_sade, kenkasuoja_sade, satulasuoja, kyparasuoja, sadevaatteet])
-    const syyssaa = new Package("Syyssään paketti", 80, "images/basic.PNG", [pipo, hanskat_syys, heijastinliivi])
-    const talvisaa = new Package("Talvisään paketti", 260, "images/basic.PNG", [kenkasuoja_talvi, hanskat_talvi, kyparamyssy, kerrasto, nastarenkaat])
-    
+    const pitkamatkavaruste = new Package("Pidemmän matkan työmatkapyöräilijän varustepaketti", 340, "images/pidemman_matkan_varustepaketti.PNG", [pyoralaukku_pitka, kypara_pitka, polkimet, kengat, kynsikkaat, lasit])
+    const pitkamatkavaate = new Package("Pidemmän matkan työmatkapyöräilijän vaatepaketti", 200, "images/pidemman_matkan_vaatepaketti.PNG", [takki, housut])
+    const sadesaa = new Package("Sadesään paketti", 180, "images/sadepaketti.PNG", [hanskat_sade, kenkasuoja_sade, satulasuoja, kyparasuoja, sadevaatteet])
+    const syyssaa = new Package("Syyssään paketti", 80, "images/syyssaapaketti.PNG", [pipo, hanskat_syys, heijastinliivi])
+    const talvisaa = new Package("Talvisään paketti", 260, "images/talvipyorailypaketti.PNG", [kenkasuoja_talvi, hanskat_talvi, kyparamyssy, kerrasto, nastarenkaat])
+
     // bikes
-    const cheaperHybrid_product = new Product("Edullisempi hybridi", 300, "images/cheaperHybrid.png")
-    const hybrid_product = new Product("Hybridi", 500, "images/cheaperHybrid.png")
-    const expensiveHybrid_product = new Product("Hybridi", 900, "images/expensiveHybrid.PNG")
-    const citybike_product = new Product("City-pyörä", 350, "images/citybike.png")
-    const cityElectric_product = new Product("City-sähköpyörä", 2100, "images/cityelectric.png")
+    const cheaperHybrid_product = new Product("Edullisempi hybridi", 300, "images/cheaperHybrid.png", true)
+    const hybrid_product = new Product("Hybridi", 500, "images/cheaperHybrid.png", true)
+    const expensiveHybrid_product = new Product("Hybridi", 900, "images/expensiveHybrid.PNG", true)
+    const citybike_product = new Product("City-pyörä", 350, "images/citybike.png", true)
+    const cityElectric_product = new Product("City-sähköpyörä", 2100, "images/cityelectric.png", true)
 
     const cheaperHybrid = new Package("Edullisempi hybridi", 300, "images/cheaperHybrid.png", [cheaperHybrid_product])
     const hybrid = new Package("Hybridi", 500, "images/cheaperHybrid.png", [hybrid_product])
@@ -137,9 +138,9 @@
     const cityElectric = new Package("City-sähköpyörä", 2100, "images/cityelectric.png", [cityElectric_product])
 
     //seats
-    const juniorSeat_product = new Product("Junior-istuin", 90, "images/juniorSeat.PNG")
-    const childCarriage_product = new Product("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG")
-    const babySeat_product = new Product("Lastenistuin", 100, "images/babySeat.PNG")
+    const juniorSeat_product = new Product("Junior-istuin", 90, "images/juniorSeat.PNG", true)
+    const childCarriage_product = new Product("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG", true)
+    const babySeat_product = new Product("Lastenistuin", 100, "images/babySeat.PNG", true)
 
     const juniorSeat = new Package("Junior-istuin", 90, "images/juniorSeat.PNG", [juniorSeat_product])
     const childCarriage = new Package("Lastenkuljetuskärry (1 paikka)", 750, "images/childCarriage.PNG", [childCarriage_product])
@@ -287,9 +288,9 @@
         },
         snow: {
           none: {
-            cheap: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [cheaperHybrid] },
-            medium: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [hybrid, expensiveHybrid, cityElectric] },
-            expensive: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa],[talvisaa]], bike: [expensiveHybrid, cityElectric] }
+            cheap: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa], [talvisaa]], bike: [cheaperHybrid] },
+            medium: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa], [talvisaa]], bike: [hybrid, expensiveHybrid, cityElectric] },
+            expensive: { packages: [[varustepaketti], [huoltopaketti], [pitkamatkavaate], [pitkamatkavaruste], [syyssaa], [sadesaa], [talvisaa]], bike: [expensiveHybrid, cityElectric] }
           }
         }
       }
@@ -387,6 +388,12 @@
         finalSelectionRef.current.setProductsMap(priceMap)
       }
 
+      const onBackClick = () => {
+        selectionRef.current.show()
+        finalSelectionRef.current.hide()
+        console.log("on back click")
+      }
+
       const onChangeTotalPrice = (total) => {
         setTotal(total)
       }
@@ -396,50 +403,50 @@
           <nav className="navbar navbar-light bg-light fixed-top">
             <span className="navbar-brand mb-0">Hinta: {total} € tai {(total / 12).toFixed(2)} €/kk </span>
           </nav>
+          <div className="content">
+            <Togglable ref={selectionRef} initialVisible={true}>
 
-          <Togglable ref={selectionRef} initialVisible={true}>
+              <div className="container-fluid">
 
-            <div className="container-fluid">
+                <div className="row">
+                  <div className="col-lg-6 col-xl-3 col-md-12 col-sm-12">
+                    <h2>Työmatkapyöräilijän paketti</h2>
+                    <br />
+                    <form onSubmit={handleSubmit}>
 
-              <div className="row">
-                <div className="col-3 cell">
-                  <h1>Työmatkapyöräilijän paketti</h1>
-                  <br />
-                  <form onSubmit={handleSubmit}>
+                      <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
 
-                    <SelectableRadio items={question1.selections} onChange={handleQ1Change} value={q1Value} id="q1" title={question1.title} />
+                      <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
 
-                    <SelectableRadio items={question2.selections} onChange={handleQ2Change} value={q2Value} id="q2" title={question2.title} />
+                      <Togglable ref={questionRef} initialVisible={false}>
+                        <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
+                      </Togglable>
 
-                    <Togglable ref={questionRef} initialVisible={false}>
-                      <SelectableRadio items={question3.selections} onChange={handleQ3Change} value={q3Value} id="q3" title={question3.title} />
-                    </Togglable>
+                      <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
 
-                    <SelectableRadio items={question4.selections} onChange={handleQ4Change} value={q4Value} id="q4" title={question4.title} />
+                      <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
 
-                    <SelectableRadio items={question5.selections} onChange={handleQ5Change} value={q5Value} id="q5" title={question5.title} />
+                      <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
 
-                    <SelectableRadio items={question6.selections} onChange={handleQ6Change} value={q6Value} id="q6" title={question6.title} />
+                    </form>
+                  </div>
 
-                  </form>
-                </div>
-
-                <div className="col-9 cell">
-                  <h2>Suosittelemme seuraavia tuotteita</h2>
-                  <h3>Valitse haluamasi tuotteet</h3>
-                  <hr />
-                  <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} resetMap={resetMap} onReady={onReady} />
+                  <div className="col-lg-6 col-xl-9 col-md-12 col-sm-12">
+                    <h2>Suosittelemme seuraavia tuotteita</h2>
+                    <h3>Valitse haluamasi tuotteet</h3>
+                    <hr />
+                    <Result isVisible={true} q1={q1Value} q2={q2Value} q3={q3Value} q4={q4Value} q5={q5Value} q6={q6Value} updateMap={updateMap} answerTree={answerTree} resetMap={resetMap} onReady={onReady} />
+                  </div>
                 </div>
               </div>
+
+            </Togglable>
+            <div className="container">
+
+              <FinalSelection ref={finalSelectionRef} onChangeTotalPrice={onChangeTotalPrice} onBackClick={onBackClick} />
+
             </div>
-
-          </Togglable>
-          <div className="container">
-
-            <FinalSelection ref={finalSelectionRef} onChangeTotalPrice={onChangeTotalPrice} />
-
           </div>
-
         </div>
 
 
@@ -451,6 +458,8 @@
 
       const [products, setProducts] = React.useState([])
       const [selected, setSelected] = React.useState([])
+      const [selectedDiscount, setSelectedDiscount] = React.useState([])
+
       const toggleRef = React.createRef()
 
       const toggleVisibility = () => {
@@ -462,7 +471,7 @@
       }
 
       const hide = () => {
-        toggleRef.current.show()
+        toggleRef.current.hide()
       }
 
       const setProductsMap = (productsMap) => {
@@ -477,6 +486,8 @@
         packagesArr.forEach(item => productsArr = productsArr.concat(item.stuff))
         setProducts(productsArr)
         setSelected(Array(productsArr.length).fill(true))
+        setSelectedDiscount(Array(productsArr.length).fill(false))
+
         window.scrollTo(0, 0)
 
       }
@@ -498,41 +509,67 @@
           newSelected[id] = true
         }
         setSelected(newSelected)
-        console.log(newSelected)
+        
+        calculatePrice(newSelected, selectedDiscount)
+
 
         
-        const sum = newSelected.map((item, index) => {
+      }
+
+      const onChangeDiscount = (id) => {
+
+        const newDiscount = [...selectedDiscount]
+        if (newDiscount[id]) {
+          newDiscount[id] = false
+        } else {
+          newDiscount[id] = true
+        }
+        setSelectedDiscount(newDiscount)
+        
+        calculatePrice(selected, newDiscount)
+      }
+
+      const calculatePrice = (selectedArr, discountArr) => {
+        const sum = selectedArr.map((item, index) => {
           if (item) {
-             return products[index].price
+
+            let discountFactor = 1
+            if(discountArr[index]) { //if discount selected
+              discountFactor = 0.7
+            }
+
+            return products[index].price * discountFactor
           } else return 0
-        }).reduce( (prev, current) => prev + current, 0)
+        }).reduce((prev, current) => prev + current, 0)
 
         props.onChangeTotalPrice(sum)
       }
 
-      const productListItems = products.map((item, index) => <ProductItem key={index} id={index} product={item} onChange={onChange} />)
+      const productListItems = products.map((item, index) => <ProductItem key={index} id={index} product={item} onChange={onChange} checked={selected[index]} onChangeDiscount={onChangeDiscount}/>)
 
 
       return (
         <div>
           <Togglable ref={toggleRef} initialVisible={false}>
-
+            <CustomButton title="Takaisin" handleClick={props.onBackClick} />
+            <h3>Tuotteet</h3>
             <div className="container">
-              <h3>Tuotteet</h3>
               {productListItems}
-            </div>            
-            <div style={{minHeight: '600px'}}>
+            </div>
+            <CustomButton title="Takaisin" handleClick={props.onBackClick} />
+
+            <div style={{ minHeight: '600px' }}>
               <h2> Valitse toimitustapa jne jne </h2>
               <p> lorem impsum ja sitä rataa </p>
             </div>
           </Togglable>
-         
+
         </div>
       )
     }
     )
 
-    const ProductItem = ({ id, product, onChange }) => {
+    const ProductItem = ({ id, product, onChange, onChangeDiscount, checked }) => {
 
       let imageStyle = {}
 
@@ -541,13 +578,19 @@
         marginLeft: '10px'
       }
 
+      const styleDiscount = {
+        backgroundColor: '#fcec03',
+        padding: '3px'
+      }
+
       return (
         <div className="row">
           <div className="col-12 cell" style={{ borderStyle: 'solid', marginBottom: '10px' }}>
-            <div style={{marginTop: '5px'}}>
-            <p><input type="checkbox" defaultChecked={true} style={{marginRight: '10px'}} onChange={() => onChange(id)} /> {product.title}  </p>
-            <p>{product.price} €</p>
-            <p>{product.title}</p>
+            <div style={{ marginTop: '5px' }}>
+              <h3><input type="checkbox" checked={checked} style={{ marginRight: '10px' }} onChange={() => onChange(id)} /> {product.title}  </h3>
+              <p>{product.price} €</p>
+              {product.discount ? <p> <input type="checkbox" defaultChecked={false} disabled={!checked} style={{ marginRight: '10px' }} onChange={() => onChangeDiscount(id)} /> Käytetty: <span style={styleDiscount}>-30 %</span></p>  : <div></div>}
+              {product.imgSrc != null ? <img src={product.imgSrc} style={{maxHeight:'150px'}}/> : <div></div>}              
             </div>
           </div>
         </div>
@@ -630,7 +673,6 @@
 
       return (
         <div>
-          <h1> Valitse jokin seuraavista: </h1>
           <div className="row">
             {productImages}
           </div>

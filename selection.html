@@ -513,7 +513,7 @@
             </Togglable>
             <div className="container">
 
-              <FinalSelection ref={finalSelectionRef} onChangeTotalPrice={onChangeTotalPrice} onBackClick={onBackClick} />
+              <FinalSelection ref={finalSelectionRef} onChangeTotalPrice={onChangeTotalPrice} onBackClick={onBackClick} totalPrice={total}/>
 
             </div>
           </div>
@@ -619,7 +619,7 @@
         props.onChangeTotalPrice(sum)
       }
 
-      const question =
+      const questionToimitus =
       {
         title: "Valitse toimitustapa",
 
@@ -631,6 +631,21 @@
           {
             value: "opt2",
             text: "Nouto liikkeestä"
+          }
+        ]
+      }
+
+      const quesionMaksutapa = {
+        title: "Valitse maksutapa",
+
+        selections: [
+          {
+            value: "opt1",
+            text: "Osamaksu"
+          },
+          {
+            value: "opt2",
+            text: "Kertamaksu"
           }
         ]
       }
@@ -667,8 +682,16 @@
             <div style={{ minHeight: '600px' }}>
 
               <br/>
+              <h2>Hinta: {props.totalPrice.toFixed(2)} €, vuokra/osamaksuhinta {(props.totalPrice / 12).toFixed(2)} €/kk </h2>
               <br/>
-              <SelectableRadio items={question.selections} onChange={onChangeQuestion} value={questionValue} id="xxx" title={question.title} />
+
+              <p>Tuotteisiin kuuluu 2 kk kokeilujakso, jonka aikana voit palauttaa tuotteet tai yksittäisiä tuotteita tai vaihtaa tuotteita sopivampiin.</p>
+              <p>Jos maksat tuotteet kertamaksulla palautetuista tuotteista hyvitetään tuotteen hinta, josta on vähennetty vuokrahinta.</p>
+              <p>Osamaksun kesto on 12 kk.</p>
+
+              <SelectableRadio items={quesionMaksutapa.selections} onChange={onChangeQuestion} value={questionValue} id="xxx" title={quesionMaksutapa.title} />
+
+              <SelectableRadio items={questionToimitus.selections} onChange={onChangeQuestion} value={questionValue} id="xyz" title={questionToimitus.title} />
               
               <Togglable ref={toggleRefKotiinkuljetus} initialVisible={true}>
                 <h2> Kotiinkuljetus </h2>
